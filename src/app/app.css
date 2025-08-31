@@ -18,7 +18,6 @@ header {
 
 aside {
     grid-area: aside;
-    border: 1px solid red
 }
 
 section {
