@@ -1,0 +1,33 @@
+.headerFlow {
+  background: linear-gradient(135deg, #152338, #21444e, #152338);
+  color: #f1f5f9;
+  border-bottom: 3px solid #55d6d6;
+}
+
+.logo-redondo {
+  width: 120px;       
+  height: 120px;        
+  border-radius: 50%;   
+  object-fit: cover;    
+  background-color: transparent;
+}
+
+.user-icon {
+  border-radius: 50%;
+  border: 2px solid #38f858;
+  padding: 0.2rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(56, 248, 120, 0.6);
+}
+
+h1 {
+  color: #02a2ff
+}
+
+p {
+  color: #cbd5e1;
+}

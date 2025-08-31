@@ -1,0 +1,29 @@
+.footerFlow {
+  background:  #0b2c35;
+  color: #f1f5f9;
+  border-top: 3px solid #55d6d6;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-social a {
+  color: #cbd5e1;
+  font-size: 1.2rem;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.footer-social a:hover {
+  color: #38bdf8;
+  transform: scale(1.2);
+}
+
+h3 {
+  color: #02a2ff
+}
+
+p {
+  color: #a4aab3;
+}
