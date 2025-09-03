@@ -1,1 +1,37 @@
-<p>get-all-teachers works!</p>
+<div class="card p-4">
+  <div class="flex place-content-end">
+    <button
+      pButton
+      type="button"
+      class="p-button-info"
+      label="Agregar"
+      icon="pi pi-plus"
+      [routerLink]="['/teachers/new']"
+    ></button>
+  </div>
+
+  <p-table [value]="teachers" stripedRows [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Materia</th>
+        <th>Correo Electrónico</th>
+        <th>Teléfono</th>
+        <th>Fecha de Registro</th>
+        <th>Estado</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-teacher>
+      <tr>
+        <td>{{ teacher.id }}</td>
+        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.subject }}</td>
+        <td>{{ teacher.email }}</td>
+        <td>{{ teacher.phone }}</td>
+        <td>{{ teacher.registration_date | date }}</td>
+        <td>{{ teacher.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
