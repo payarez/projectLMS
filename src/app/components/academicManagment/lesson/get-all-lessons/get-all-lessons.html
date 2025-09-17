@@ -1,1 +1,41 @@
-<p>get-all-lessons works!</p>
+<!-- get-all-lessons.html -->
+<p-table [value]="lessons" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Module ID</th>
+      <th>Título</th>
+      <th>Contenido</th>
+      <th>Orden</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+      <th>Status</th>
+      <th>Submission IDs</th>
+      <th>Attempt IDs</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-lesson>
+    <tr>
+      <td>{{ lesson.id }}</td>
+      <td>{{ lesson.moduleId }}</td>
+      <td>{{ lesson.title }}</td>
+      <td>{{ lesson.content || '-' }}</td>
+      <td>{{ lesson.order }}</td>
+      <td>{{ lesson.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ lesson.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': lesson.status === 'ACTIVE',
+            'text-red-600 font-bold': lesson.status === 'INACTIVE'
+          }"
+        >
+          {{ lesson.status }}
+        </span>
+      </td>
+      <td>{{ lesson.submissionIds?.join(', ') || '-' }}</td>
+      <td>{{ lesson.attemptIds?.join(', ') || '-' }}</td>
+    </tr>
+  </ng-template>
+</p-table>

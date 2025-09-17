@@ -1,1 +1,51 @@
-<p>create-tags works!</p>
+<!-- create-tags.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Tag</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Nombre -->
+    <div>
+      <label for="name" class="block font-medium mb-1">Nombre</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        formControlName="name"
+        class="w-full"
+        placeholder="Ingrese el nombre del tag"
+      />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm">
+        El nombre es requerido.
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Course Tag IDs -->
+    <div>
+      <label for="courseTagIds" class="block font-medium mb-1">IDs de Cursos relacionados</label>
+      <input
+        id="courseTagIds"
+        type="text"
+        pInputText
+        formControlName="courseTagIds"
+        class="w-full"
+        placeholder="Ej: 101, 102 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de los cursos separados por coma</small>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

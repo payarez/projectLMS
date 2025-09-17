@@ -1,1 +1,79 @@
-<p>create-submissions works!</p>
+<!-- create-submissions.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Submission</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Lesson ID -->
+    <div>
+      <label for="lessonId" class="block font-medium mb-1">ID de la Lección</label>
+      <input
+        id="lessonId"
+        type="number"
+        pInputText
+        formControlName="lessonId"
+        class="w-full"
+        placeholder="Ingrese el ID de la lección"
+      />
+      <div *ngIf="form.get('lessonId')?.invalid && form.get('lessonId')?.touched" class="text-red-500 text-sm">
+        El ID de la lección es requerido.
+      </div>
+    </div>
+
+    <!-- Student ID -->
+    <div>
+      <label for="studentId" class="block font-medium mb-1">ID del Estudiante</label>
+      <input
+        id="studentId"
+        type="number"
+        pInputText
+        formControlName="studentId"
+        class="w-full"
+        placeholder="Ingrese el ID del estudiante"
+      />
+      <div *ngIf="form.get('studentId')?.invalid && form.get('studentId')?.touched" class="text-red-500 text-sm">
+        El ID del estudiante es requerido.
+      </div>
+    </div>
+
+    <!-- File URL -->
+    <div>
+      <label for="fileUrl" class="block font-medium mb-1">URL del Archivo</label>
+      <input
+        id="fileUrl"
+        type="text"
+        pInputText
+        formControlName="fileUrl"
+        class="w-full"
+        placeholder="URL del archivo (opcional)"
+      />
+    </div>
+
+    <!-- Grade -->
+    <div>
+      <label for="grade" class="block font-medium mb-1">Calificación</label>
+      <input
+        id="grade"
+        type="number"
+        pInputText
+        formControlName="grade"
+        class="w-full"
+        placeholder="Ingrese la calificación (opcional)"
+      />
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

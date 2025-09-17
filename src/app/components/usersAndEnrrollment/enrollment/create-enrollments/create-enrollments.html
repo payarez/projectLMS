@@ -1,1 +1,74 @@
-<p>create-enrollments works!</p>
+<!-- create-enrollments.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Matrícula</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Student ID -->
+    <div>
+      <label for="studentId" class="block font-medium mb-1">ID del Estudiante</label>
+      <input
+        id="studentId"
+        type="number"
+        pInputText
+        formControlName="studentId"
+        class="w-full"
+        placeholder="Ingrese el ID del estudiante"
+      />
+      <div *ngIf="form.get('studentId')?.invalid && form.get('studentId')?.touched" class="text-red-500 text-sm">
+        El ID del estudiante es requerido.
+      </div>
+    </div>
+
+    <!-- Course ID -->
+    <div>
+      <label for="courseId" class="block font-medium mb-1">ID del Curso</label>
+      <input
+        id="courseId"
+        type="number"
+        pInputText
+        formControlName="courseId"
+        class="w-full"
+        placeholder="Ingrese el ID del curso"
+      />
+      <div *ngIf="form.get('courseId')?.invalid && form.get('courseId')?.touched" class="text-red-500 text-sm">
+        El ID del curso es requerido.
+      </div>
+    </div>
+
+    <!-- Fecha de inscripción -->
+    <div>
+      <label for="enrolledAt" class="block font-medium mb-1">Fecha de inscripción</label>
+      <input
+        id="enrolledAt"
+        type="datetime-local"
+        formControlName="enrolledAt"
+        class="w-full border p-2 rounded"
+      />
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label for="state" class="block font-medium mb-1">Estado</label>
+      <select id="state" formControlName="state" class="w-full border p-2 rounded">
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+        <option value="dropped">Dropped</option>
+      </select>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

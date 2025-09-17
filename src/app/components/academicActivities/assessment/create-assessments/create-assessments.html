@@ -1,1 +1,50 @@
-<p>crear-evaluacion funciona!</p>
+<!-- create-assessments.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Assessment</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Score -->
+    <div>
+      <label for="score" class="block font-medium mb-1">Puntaje</label>
+      <input
+        id="score"
+        type="number"
+        pInputText
+        formControlName="score"
+        class="w-full"
+        placeholder="Ingrese el puntaje"
+      />
+      <div *ngIf="form.get('score')?.invalid && form.get('score')?.touched" class="text-red-500 text-sm">
+        El puntaje es obligatorio y debe ser mayor o igual a 0.
+      </div>
+    </div>
+
+    <!-- Feedback -->
+    <div>
+      <label for="feedback" class="block font-medium mb-1">Retroalimentación</label>
+      <textarea
+        id="feedback"
+        pInputTextarea
+        formControlName="feedback"
+        class="w-full"
+        rows="3"
+        placeholder="Ingrese feedback (opcional)"
+      ></textarea>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

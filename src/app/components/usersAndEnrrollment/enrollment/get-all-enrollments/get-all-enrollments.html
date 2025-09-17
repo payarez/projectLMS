@@ -1,1 +1,43 @@
-<p>get-all-enrollments works!</p>
+<!-- get-all-enrollments.html -->
+<p-table [value]="enrollments" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Student ID</th>
+      <th>Course ID</th>
+      <th>Fecha de inscripción</th>
+      <th>Estado</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-enrollment>
+    <tr>
+      <td>{{ enrollment.id }}</td>
+      <td>{{ enrollment.studentId }}</td>
+      <td>{{ enrollment.courseId }}</td>
+      <td>{{ enrollment.enrolledAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-blue-600 font-bold': enrollment.state === 'active',
+            'text-green-600 font-bold': enrollment.state === 'completed',
+            'text-red-600 font-bold': enrollment.state === 'dropped'
+          }"
+        >
+          {{ enrollment.state }}
+        </span>
+      </td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': enrollment.status === 'ACTIVE',
+            'text-red-600 font-bold': enrollment.status === 'INACTIVE'
+          }"
+        >
+          {{ enrollment.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

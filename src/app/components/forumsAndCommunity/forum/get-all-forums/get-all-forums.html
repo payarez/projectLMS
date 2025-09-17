@@ -1,1 +1,33 @@
-<p>get-all-forums works!</p>
+<!-- get-all-forums.html -->
+<p-table [value]="forums" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Descripción</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-forum>
+    <tr>
+      <td>{{ forum.id }}</td>
+      <td>{{ forum.title }}</td>
+      <td>{{ forum.description || '-' }}</td>
+      <td>{{ forum.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ forum.updatedAt ? (forum.updatedAt | date: 'dd/MM/yyyy HH:mm') : '-' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': forum.status === 'ACTIVE',
+            'text-red-600 font-bold': forum.status === 'INACTIVE'
+          }"
+        >
+          {{ forum.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

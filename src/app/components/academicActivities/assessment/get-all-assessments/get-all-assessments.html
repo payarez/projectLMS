@@ -1,1 +1,31 @@
-<p>get-all-assessments works!</p>
+<!-- get-all-assessments.html -->
+<p-table [value]="assessments" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Score</th>
+      <th>Feedback</th>
+      <th>Evaluated At</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-assessment>
+    <tr>
+      <td>{{ assessment.id }}</td>
+      <td>{{ assessment.score }}</td>
+      <td>{{ assessment.feedback || '-' }}</td>
+      <td>{{ assessment.evaluatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': assessment.status === 'ACTIVE',
+            'text-red-600 font-bold': assessment.status === 'INACTIVE'
+          }"
+        >
+          {{ assessment.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

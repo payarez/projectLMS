@@ -1,1 +1,110 @@
-<p>create-lessons works!</p>
+<!-- create-lessons.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Lección</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Module ID -->
+    <div>
+      <label for="moduleId" class="block font-medium mb-1">ID del Módulo</label>
+      <input
+        id="moduleId"
+        type="number"
+        pInputText
+        formControlName="moduleId"
+        class="w-full"
+        placeholder="Ingrese el ID del módulo"
+      />
+      <div *ngIf="form.get('moduleId')?.invalid && form.get('moduleId')?.touched" class="text-red-500 text-sm">
+        El ID del módulo es requerido.
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div>
+      <label for="title" class="block font-medium mb-1">Título</label>
+      <input
+        id="title"
+        type="text"
+        pInputText
+        formControlName="title"
+        class="w-full"
+        placeholder="Ingrese el título de la lección"
+      />
+      <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="text-red-500 text-sm">
+        El título es requerido.
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <label for="content" class="block font-medium mb-1">Contenido</label>
+      <textarea
+        id="content"
+        pInputTextarea
+        formControlName="content"
+        class="w-full"
+        rows="4"
+        placeholder="Contenido de la lección (opcional)"
+      ></textarea>
+    </div>
+
+    <!-- Order -->
+    <div>
+      <label for="order" class="block font-medium mb-1">Orden</label>
+      <input
+        id="order"
+        type="number"
+        pInputText
+        formControlName="order"
+        class="w-full"
+        placeholder="Ingrese el orden de la lección"
+      />
+      <div *ngIf="form.get('order')?.invalid && form.get('order')?.touched" class="text-red-500 text-sm">
+        El orden es requerido y debe ser mayor a 0.
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Submission IDs -->
+    <div>
+      <label for="submissionIds" class="block font-medium mb-1">IDs de Submissions</label>
+      <input
+        id="submissionIds"
+        type="text"
+        pInputText
+        formControlName="submissionIds"
+        class="w-full"
+        placeholder="Ej: 201,202 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de submissions separados por coma</small>
+    </div>
+
+    <!-- Attempt IDs -->
+    <div>
+      <label for="attemptIds" class="block font-medium mb-1">IDs de Attempts</label>
+      <input
+        id="attemptIds"
+        type="text"
+        pInputText
+        formControlName="attemptIds"
+        class="w-full"
+        placeholder="Ej: 301,302 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de attempts separados por coma</small>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

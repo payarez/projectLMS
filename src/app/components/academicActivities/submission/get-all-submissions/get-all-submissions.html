@@ -1,1 +1,38 @@
-<p>get-all-submissions works!</p>
+<!-- get-all-submissions.html -->
+<p-table [value]="submissions" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Lesson ID</th>
+      <th>Student ID</th>
+      <th>File URL</th>
+      <th>Submitted At</th>
+      <th>Grade</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-submission>
+    <tr>
+      <td>{{ submission.id }}</td>
+      <td>{{ submission.lessonId }}</td>
+      <td>{{ submission.studentId }}</td>
+      <td>
+        <a *ngIf="submission.fileUrl" [href]="submission.fileUrl" target="_blank">Archivo</a>
+        <span *ngIf="!submission.fileUrl">-</span>
+      </td>
+      <td>{{ submission.submittedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ submission.grade ?? '-' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': submission.status === 'ACTIVE',
+            'text-red-600 font-bold': submission.status === 'INACTIVE'
+          }"
+        >
+          {{ submission.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

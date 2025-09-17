@@ -1,1 +1,59 @@
-<p>create-posts works!</p>
+<!-- create-posts.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Post</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Contenido -->
+    <div>
+      <label for="content" class="block font-medium mb-1">Contenido</label>
+      <textarea
+        id="content"
+        pInputTextarea
+        formControlName="content"
+        class="w-full border p-2 rounded"
+        placeholder="Escribe el contenido del post"
+        rows="4"
+      ></textarea>
+      <div *ngIf="form.get('content')?.invalid && form.get('content')?.touched" class="text-red-500 text-sm">
+        El contenido es requerido.
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Fecha de creación -->
+    <div>
+      <label for="createdAt" class="block font-medium mb-1">Fecha de creación</label>
+      <input
+        id="createdAt"
+        type="datetime-local"
+        formControlName="createdAt"
+        class="w-full border p-2 rounded"
+      />
+    </div>
+
+    <!-- Fecha de actualización -->
+    <div>
+      <label for="updatedAt" class="block font-medium mb-1">Fecha de actualización</label>
+      <input
+        id="updatedAt"
+        type="datetime-local"
+        formControlName="updatedAt"
+        class="w-full border p-2 rounded"
+      />
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

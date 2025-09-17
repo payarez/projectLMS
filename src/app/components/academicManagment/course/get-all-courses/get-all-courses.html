@@ -1,1 +1,39 @@
-<p>get-all-courses works!</p>
+<!-- get-all-courses.html -->
+<p-table [value]="courses" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Descripción</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+      <th>Status</th>
+      <th>Module IDs</th>
+      <th>Enrollment IDs</th>
+      <th>CourseTag IDs</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-course>
+    <tr>
+      <td>{{ course.id }}</td>
+      <td>{{ course.title }}</td>
+      <td>{{ course.description || '-' }}</td>
+      <td>{{ course.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ course.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': course.status === 'ACTIVE',
+            'text-red-600 font-bold': course.status === 'INACTIVE'
+          }"
+        >
+          {{ course.status }}
+        </span>
+      </td>
+      <td>{{ course.moduleIds?.join(', ') || '-' }}</td>
+      <td>{{ course.enrollmentIds?.join(', ') || '-' }}</td>
+      <td>{{ course.courseTagIds?.join(', ') || '-' }}</td>
+    </tr>
+  </ng-template>
+</p-table>

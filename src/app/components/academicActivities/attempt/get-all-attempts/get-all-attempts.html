@@ -1,1 +1,35 @@
-<p>get-all-attempts works!</p>
+<!-- get-all-attempts.html -->
+<p-table [value]="attempts" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Lesson ID</th>
+      <th>Student ID</th>
+      <th>Attempt Number</th>
+      <th>Score</th>
+      <th>Attempted At</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-attempt>
+    <tr>
+      <td>{{ attempt.id }}</td>
+      <td>{{ attempt.lessonId }}</td>
+      <td>{{ attempt.studentId }}</td>
+      <td>{{ attempt.attemptNumber }}</td>
+      <td>{{ attempt.score ?? '-' }}</td>
+      <td>{{ attempt.attemptedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': attempt.status === 'ACTIVE',
+            'text-red-600 font-bold': attempt.status === 'INACTIVE'
+          }"
+        >
+          {{ attempt.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,1 +1,89 @@
-<p>create-students works!</p>
+<!-- create-students.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Estudiante</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Nombre -->
+    <div>
+      <label for="name" class="block font-medium mb-1">Nombre</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        formControlName="name"
+        class="w-full"
+        placeholder="Ingrese el nombre"
+      />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm">
+        El nombre es requerido.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="block font-medium mb-1">Email</label>
+      <input
+        id="email"
+        type="email"
+        pInputText
+        formControlName="email"
+        class="w-full"
+        placeholder="Ingrese el email"
+      />
+      <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm">
+        Ingrese un email válido.
+      </div>
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Estado</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Fecha de creación -->
+    <div>
+      <label for="createdAt" class="block font-medium mb-1">Fecha de creación</label>
+      <input
+        id="createdAt"
+        type="datetime-local"
+        formControlName="createdAt"
+        class="w-full border p-2 rounded"
+      />
+    </div>
+
+    <!-- Fecha de actualización -->
+    <div>
+      <label for="updatedAt" class="block font-medium mb-1">Fecha de actualización</label>
+      <input
+        id="updatedAt"
+        type="datetime-local"
+        formControlName="updatedAt"
+        class="w-full border p-2 rounded"
+      />
+    </div>
+
+    <!-- Enrollment IDs -->
+    <div>
+      <label for="enrollmentIds" class="block font-medium mb-1">Enrollment IDs</label>
+      <input
+        id="enrollmentIds"
+        type="text"
+        pInputText
+        formControlName="enrollmentIds"
+        class="w-full"
+        placeholder="Ej: 101, 102, 103"
+      />
+      <small class="text-gray-500">Separar con comas los IDs de los enrollments</small>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

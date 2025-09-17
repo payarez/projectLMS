@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-import { TeacherI } from '../../../../models/teacher';
+import { TeacherI } from '../../../../models/usersAndEnrollment/teacher';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { Teacher } from '../../../../services/teacher';

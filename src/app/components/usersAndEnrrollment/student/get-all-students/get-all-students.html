@@ -1,1 +1,41 @@
-<p>get-all-students works!</p>
+<!-- get-all-students.html -->
+<p-table [value]="students" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Estado</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+      <th>Enrollments</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-student>
+    <tr>
+      <td>{{ student.id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.email }}</td>
+      <td>
+        <span 
+          [ngClass]="{
+            'text-green-600 font-bold': student.status === 'ACTIVE',
+            'text-red-600 font-bold': student.status === 'INACTIVE'
+          }">
+          {{ student.status }}
+        </span>
+      </td>
+      <td>{{ student.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ student.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span *ngIf="student.enrollmentIds?.length; else noEnrollments">
+          {{ student.enrollmentIds.join(', ') }}
+        </span>
+        <ng-template #noEnrollments>
+          <span class="text-gray-400 italic">Sin registros</span>
+        </ng-template>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

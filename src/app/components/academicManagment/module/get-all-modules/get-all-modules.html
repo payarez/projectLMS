@@ -1,1 +1,37 @@
-<p>get-all-modules works!</p>
+<!-- get-all-modules.html -->
+<p-table [value]="modules" class="p-datatable-gridlines" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Curso ID</th>
+      <th>Título</th>
+      <th>Orden</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+      <th>Status</th>
+      <th>Lesson IDs</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-module>
+    <tr>
+      <td>{{ module.id }}</td>
+      <td>{{ module.courseId }}</td>
+      <td>{{ module.title }}</td>
+      <td>{{ module.order }}</td>
+      <td>{{ module.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ module.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <span
+          [ngClass]="{
+            'text-green-600 font-bold': module.status === 'ACTIVE',
+            'text-red-600 font-bold': module.status === 'INACTIVE'
+          }"
+        >
+          {{ module.status }}
+        </span>
+      </td>
+      <td>{{ module.lessonIds?.join(', ') || '-' }}</td>
+    </tr>
+  </ng-template>
+</p-table>

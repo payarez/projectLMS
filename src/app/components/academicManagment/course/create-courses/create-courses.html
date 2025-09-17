@@ -1,1 +1,92 @@
-<p>create-courses works!</p>
+<!-- create-courses.html -->
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Crear Curso</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Title -->
+    <div>
+      <label for="title" class="block font-medium mb-1">Título</label>
+      <input
+        id="title"
+        type="text"
+        pInputText
+        formControlName="title"
+        class="w-full"
+        placeholder="Ingrese el título del curso"
+      />
+      <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="text-red-500 text-sm">
+        El título es requerido.
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label for="description" class="block font-medium mb-1">Descripción</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        formControlName="description"
+        class="w-full"
+        rows="4"
+        placeholder="Descripción del curso (opcional)"
+      ></textarea>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="status" class="block font-medium mb-1">Status</label>
+      <select id="status" formControlName="status" class="w-full border p-2 rounded">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <!-- Module IDs -->
+    <div>
+      <label for="moduleIds" class="block font-medium mb-1">IDs de Módulos</label>
+      <input
+        id="moduleIds"
+        type="text"
+        pInputText
+        formControlName="moduleIds"
+        class="w-full"
+        placeholder="Ej: 1,2 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de módulos separados por coma</small>
+    </div>
+
+    <!-- Enrollment IDs -->
+    <div>
+      <label for="enrollmentIds" class="block font-medium mb-1">IDs de Enrollments</label>
+      <input
+        id="enrollmentIds"
+        type="text"
+        pInputText
+        formControlName="enrollmentIds"
+        class="w-full"
+        placeholder="Ej: 1,2 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de enrollments separados por coma</small>
+    </div>
+
+    <!-- CourseTag IDs -->
+    <div>
+      <label for="courseTagIds" class="block font-medium mb-1">IDs de CourseTags</label>
+      <input
+        id="courseTagIds"
+        type="text"
+        pInputText
+        formControlName="courseTagIds"
+        class="w-full"
+        placeholder="Ej: 1,2 (opcional)"
+      />
+      <small class="text-gray-500">Ingrese los IDs de courseTags separados por coma</small>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-2 pt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelar()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>
