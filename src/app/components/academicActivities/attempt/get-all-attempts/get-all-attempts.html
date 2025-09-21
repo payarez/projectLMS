@@ -1,1 +1,24 @@
-<p>get-all-attempts works!</p>
+<div class="card">
+  <p-table [value]="attempts" [tableStyle]="{ 'min-width': '65rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Attempt #</th>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Lesson</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-attempt>
+      <tr>
+        <td>{{ attempt.id }}</td>
+        <td>{{ attempt.attemptNumber }}</td>
+        <td>{{ attempt.date | date:'short' }}</td>
+        <td>{{ attempt.result }}</td>
+        <td>{{ lessonTitle(attempt.lessonId) }}</td>
+        <td>{{ attempt.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

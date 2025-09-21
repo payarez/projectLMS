@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Router } from '@angular/router';
-import { Teacher } from '../../../../services/teacher';
+import { Teacher } from '../../../../services/usersAndEnrrollment/teacher';
 
 @Component({
   selector: 'app-create-teachers',

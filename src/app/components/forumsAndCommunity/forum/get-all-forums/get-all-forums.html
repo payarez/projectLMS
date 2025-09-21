@@ -1,1 +1,20 @@
-<p>get-all-forums works!</p>
+<div class="card">
+  <p-table [value]="forums" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-forum>
+      <tr>
+        <td>{{ forum.id }}</td>
+        <td>{{ forum.title }}</td>
+        <td>{{ forum.description }}</td>
+        <td>{{ forum.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

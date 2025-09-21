@@ -1,1 +1,20 @@
-<p>get-all-course-tags works!</p>
+<div class="card">
+  <p-table [value]="courseTags" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Course</th>
+        <th>Tag</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ct>
+      <tr>
+        <td>{{ ct.id }}</td>
+        <td>{{ courseName(ct.courseId) }}</td>
+        <td>{{ tagName(ct.tagId) }}</td>
+        <td>{{ ct.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-import { TeacherI } from '../../../../models/teacher';
+import { TeacherI } from '../../../../models/usersAndEnrrollment/teacher';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
-import { Teacher } from '../../../../services/teacher';
+import { Teacher } from '../../../../services/usersAndEnrrollment/teacher';
 
 @Component({
   selector: 'app-get-all-teachers',

@@ -1,1 +1,24 @@
-<p>get-all-submissions works!</p>
+<div class="card">
+  <p-table [value]="submissions" [tableStyle]="{ 'min-width': '70rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Content</th>
+        <th>Date</th>
+        <th>Lesson</th>
+        <th>Student</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-submission>
+      <tr>
+        <td>{{ submission.id }}</td>
+        <td>{{ submission.content }}</td>
+        <td>{{ submission.submittedAt | date:'short' }}</td>
+        <td>{{ lessonTitle(submission.lessonId) }}</td>
+        <td>{{ studentName(submission.studentId) }}</td>
+        <td>{{ submission.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

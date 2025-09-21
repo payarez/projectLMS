@@ -1,1 +1,26 @@
-<p>get-all-assessments works!</p>
+<div class="card">
+  <p-table [value]="assessments" [tableStyle]="{ 'min-width': '65rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Grade</th>
+        <th>Feedback</th>
+        <th>Date</th>
+        <th>Submission</th>
+        <th>Content</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-assessment>
+      <tr>
+        <td>{{ assessment.id }}</td>
+        <td>{{ assessment.grade }}</td>
+        <td>{{ assessment.feedback }}</td>
+        <td>{{ assessment.date | date:'short' }}</td>
+        <td>{{ submissionLabel(assessment.submissionId) }}</td>
+        <td>{{ submissionContent(assessment.submissionId) }}</td>
+        <td>{{ assessment.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

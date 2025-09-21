@@ -1,1 +1,22 @@
-<p>get-all-modules works!</p>
+<div class="card">
+  <p-table [value]="modules" [tableStyle]="{ 'min-width': '55rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Course</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-module>
+      <tr>
+        <td>{{ module.id }}</td>
+        <td>{{ module.title }}</td>
+        <td>{{ module.description }}</td>
+        <td>{{ courseName(module.courseId) }}</td>
+        <td>{{ module.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

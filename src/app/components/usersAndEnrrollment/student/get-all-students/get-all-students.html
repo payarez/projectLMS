@@ -1,1 +1,23 @@
-<p>get-all-students works!</p>
+<p-table [value]="students" class="p-datatable-sm" [tableStyle]="{ 'min-width': '40rem' }">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-student>
+    <tr>
+      <td>{{ student.id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.email }}</td>
+      <td>
+        <span [ngClass]="{ 'text-green-600': student.status === 'ACTIVE', 'text-red-600': student.status === 'INACTIVE' }">
+          {{ student.status }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

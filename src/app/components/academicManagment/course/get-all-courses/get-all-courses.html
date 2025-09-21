@@ -1,1 +1,26 @@
-<p>get-all-courses works!</p>
+<div class="card">
+  <p-table [value]="courses" [tableStyle]="{ 'min-width': '70rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Teacher</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-course>
+      <tr>
+        <td>{{ course.id }}</td>
+        <td>{{ course.title }}</td>
+        <td>{{ course.description }}</td>
+        <td>{{ course.startDate | date:'shortDate' }}</td>
+        <td>{{ course.endDate | date:'shortDate' }}</td>
+        <td>{{ teacherName(course.teacherId) }}</td>
+        <td>{{ course.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
