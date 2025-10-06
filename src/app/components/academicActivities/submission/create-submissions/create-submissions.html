@@ -1,1 +1,77 @@
-<p>create-submissions works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Contenido -->
+    <div class="md:col-span-2">
+      <label class="block mb-1 font-semibold">Contenido</label>
+      <input pInputText type="text" formControlName="content" class="w-full" placeholder="Ej: Proyecto PDF subido" />
+    </div>
+
+    <!-- Fecha de envío -->
+    <div>
+      <label class="block mb-1 font-semibold">Fecha de envío</label>
+      <p-datepicker formControlName="submittedAt" dateFormat="yy-mm-dd" class="w-full"></p-datepicker>
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label class="block mb-1 font-semibold">Estado</label>
+      <p-select
+        [options]="statuses"
+        optionLabel="label"
+        optionValue="value"
+        formControlName="status"
+        placeholder="Seleccione estado"
+        class="w-full">
+      </p-select>
+    </div>
+
+    <!-- Estudiante -->
+    <div>
+      <label class="block mb-1 font-semibold">Estudiante</label>
+      <p-select
+        [options]="students"
+        optionLabel="name"
+        optionValue="id"
+        formControlName="studentId"
+        placeholder="Seleccione estudiante"
+        class="w-full">
+      </p-select>
+    </div>
+
+    <!-- Lección -->
+    <div>
+      <label class="block mb-1 font-semibold">Lección</label>
+      <p-select
+        [options]="lessons"
+        optionLabel="title"
+        optionValue="id"
+        formControlName="lessonId"
+        placeholder="Seleccione lección"
+        class="w-full">
+      </p-select>
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>

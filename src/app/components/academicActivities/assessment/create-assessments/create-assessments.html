@@ -1,1 +1,70 @@
-<p>crear-evaluacion funciona!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Nota -->
+    <div>
+      <label class="block mb-1 font-semibold">Nota</label>
+      <input pInputText type="number" formControlName="grade" class="w-full" placeholder="0 - 100"/>
+    </div>
+
+    <!-- Fecha -->
+    <div>
+      <label class="block mb-1 font-semibold">Fecha de evaluación</label>
+      <p-datepicker formControlName="date" dateFormat="yy-mm-dd" class="w-full"></p-datepicker>
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label class="block mb-1 font-semibold">Estado</label>
+      <p-select
+        [options]="statuses"
+        optionLabel="label"
+        optionValue="value"
+        formControlName="status"
+        placeholder="Seleccione estado"
+        class="w-full">
+      </p-select>
+    </div>
+
+    <!-- Feedback -->
+    <div class="md:col-span-2">
+      <label class="block mb-1 font-semibold">Retroalimentación</label>
+      <textarea pInputText formControlName="feedback" rows="3" class="w-full"></textarea>
+    </div>
+
+    <!-- Submission -->
+    <div class="md:col-span-2">
+      <label class="block mb-1 font-semibold">Entrega</label>
+      <p-select
+        [options]="submissions"
+        optionLabel="content"
+        optionValue="id"
+        formControlName="submissionId"
+        placeholder="Seleccione entrega"
+        class="w-full">
+      </p-select>
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>
