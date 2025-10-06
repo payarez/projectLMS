@@ -2,3 +2,16 @@
 @import "tailwindcss";
 
 @import "primeicons/primeicons.css";
+
+.bg-custom-gradient {
+  background: linear-gradient(0deg, #2a4c56, #579db1, #50a8be);
+}
+
+.bg-custom-gradient-dark {
+  background: linear-gradient(135deg, #566980, #2a4c56, #103b46);
+}
+
+.text-shadow-custom {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+

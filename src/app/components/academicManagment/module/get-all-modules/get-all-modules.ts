@@ -9,11 +9,12 @@ import { CourseService } from '../../../../services/academicManagment/course-ser
 
 import { ModuleI } from '../../../../models/academicManagment/module';
 import { CourseI } from '../../../../models/academicManagment/course';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-modules',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-modules.html',
   styleUrl: './get-all-modules.css',
   encapsulation: ViewEncapsulation.None,

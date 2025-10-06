@@ -1,21 +1,83 @@
-<p-table [value]="tags" class="p-datatable-sm" [tableStyle]="{ 'min-width': '30rem' }">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Status</th>
-    </tr>
-  </ng-template>
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <!-- Encabezado -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
+      <i class="pi pi-tags text-white text-3xl text-shadow-custom"></i>
+      Gestión de Tags
+    </h2>
 
-  <ng-template pTemplate="body" let-tag>
-    <tr>
-      <td>{{ tag.id }}</td>
-      <td>{{ tag.name }}</td>
-      <td>
-        <span [ngClass]="{ 'text-green-600': tag.status === 'ACTIVE', 'text-red-600': tag.status === 'INACTIVE' }">
-          {{ tag.status }}
-        </span>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+    <div class="flex items-center gap-3">
+      <!-- Barra de búsqueda -->
+      <i class="pi pi-search text-white text-shadow-custom"></i>
+      <span class="p-input-icon-left w-64">
+        <input
+          pInputText
+          type="text"
+          placeholder=" Buscar tag..."
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
+          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
+        />
+      </span>
+
+      <!-- Botón agregar -->
+      <button
+        pButton
+        type="button"
+        class="p-button-sm p-button-rounded p-button-success shadow-md"
+        label="Agregar"
+        icon="pi pi-plus"
+        [routerLink]="['/tags/new']"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Panel -->
+  <div class="card shadow-md rounded-lg bg-gray-50 p-5">
+    <!-- Subtítulo -->
+    <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+      <i class="pi pi-list text-gray-500"></i>
+      Lista de Tags
+    </h3>
+
+    <!-- Tabla -->
+    <p-table
+      #dt
+      [value]="tags"
+      stripedRows
+      paginator
+      [rows]="5"
+      [rowsPerPageOptions]="[5,10,20]"
+      [globalFilterFields]="['id','name','status']"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
+      [tableStyle]="{ 'min-width': '40rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-100 text-gray-700 uppercase text-sm tracking-wide">
+          <th pSortableColumn="id" class="px-4 py-2 text-left">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name" class="px-4 py-2 text-left">
+            Nombre <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" class="px-4 py-2 text-left">
+            Estado <p-sortIcon field="status"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-tag>
+        <tr class="hover:bg-gray-50 transition">
+          <td class="px-4 py-2 font-medium text-gray-800">{{ tag.id }}</td>
+          <td class="px-4 py-2">{{ tag.name }}</td>
+          <td class="px-4 py-2">
+            <p-tag
+              [value]="tag.status"
+              [severity]="tag.status === 'ACTIVE' ? 'success' : 'danger'"
+              styleClass="px-3 py-1 font-medium rounded-full"
+            ></p-tag>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

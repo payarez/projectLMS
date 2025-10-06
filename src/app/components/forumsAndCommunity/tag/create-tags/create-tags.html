@@ -1,48 +1,61 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
-  <div class="grid grid-cols-1 gap-4">
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <!-- Panel del formulario -->
+  <div class="card shadow-md rounded-lg bg-gray-50 p-6 max-w-2xl mx-auto">
+    <!-- Encabezado -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+      <i class="pi pi-tag text-3xl text-gray-700"></i>
+      Crear Tag
+    </h2>
 
-    <!-- Nombre del Tag -->
-    <div>
-      <label class="block mb-1 font-semibold">Nombre del Tag</label>
-      <input
-        pInputText
-        formControlName="name"
-        class="w-full"
-        placeholder="Ej: Angular, SQL, NodeJS" />
-    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="w-full">
+      <div class="grid grid-cols-1 gap-6">
 
-    <!-- Estado -->
-    <div>
-      <label class="block mb-1 font-semibold">Estado</label>
-      <p-select
-        [options]="statuses"
-        optionLabel="label"
-        optionValue="value"
-        formControlName="status"
-        placeholder="Seleccione estado"
-        class="w-full">
-      </p-select>
-    </div>
+        <!-- Nombre del Tag -->
+        <div>
+          <label class="block mb-2 font-semibold text-gray-700">Nombre del Tag</label>
+          <input
+            pInputText
+            formControlName="name"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="Ej: Angular, SQL, NodeJS"
+          />
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block mb-2 font-semibold text-gray-700">Estado</label>
+          <p-select
+            [options]="statuses"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="status"
+            placeholder="Seleccione estado"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-center mt-6">
+        <div class="bg-gray-100 rounded-lg p-4 flex gap-4 items-center shadow-sm">
+          <button
+            pButton
+            type="submit"
+            class="p-button p-component bg-green-600 text-white hover:bg-green-700"
+            label="Guardar"
+            icon="pi pi-save"
+          ></button>
+          <button
+            pButton
+            type="button"
+            class="p-button p-component bg-gray-400 text-white hover:bg-gray-500"
+            label="Cancelar"
+            icon="pi pi-times"
+            (click)="cancelar()"
+          ></button>
+        </div>
+      </div>
+    </form>
   </div>
-
-  <!-- Botones -->
-  <div class="flex justify-center mt-6">
-    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
-      <button
-        pButton
-        type="submit"
-        class="p-button p-component bg-primary text-white"
-        label="Guardar"
-        icon="pi pi-save"
-      ></button>
-      <button
-        pButton
-        type="button"
-        class="p-button p-component p-button-secondary"
-        label="Cancelar"
-        icon="pi pi-times"
-        (click)="cancelar()"
-      ></button>
-    </div>
-  </div>
-</form>
+</div>

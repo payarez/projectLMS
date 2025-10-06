@@ -1,32 +1,106 @@
-<p-table [value]="enrollments" class="p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>ID</th>
-      <th>Student</th>
-      <th>Course</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-enrollment>
-    <tr>
-      <td>{{ enrollment.id }}</td>
-      <td>{{ studentName(enrollment.studentId) }}</td>
-      <td>{{ courseTitle(enrollment.courseId) }}</td>
-      <td>{{ enrollment.date | date:'mediumDate' }}</td>
-      <td>
-        <span [ngClass]="{
-          'text-green-600 font-bold': enrollment.status === 'ACTIVE',
-          'text-red-600 font-bold': enrollment.status === 'INACTIVE'
-        }">
-          {{ enrollment.status }}
-        </span>
-      </td>
-      <td>
-        <button pButton label="Edit" icon="pi pi-pencil" class="p-button-sm p-button-text"></button>
-        <button pButton label="Delete" icon="pi pi-trash" class="p-button-sm p-button-danger p-button-text"></button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <!-- Encabezado -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
+      <i class="pi pi-book text-white text-3xl text-shadow-custom"></i>
+      Gestión de Matrículas
+    </h2>
+
+    <div class="flex items-center gap-3">
+      <!-- Barra de búsqueda -->
+      <i class="pi pi-search text-white text-shadow-custom"></i>
+      <span class="p-input-icon-left w-64">
+        <input 
+          pInputText 
+          type="text" 
+          placeholder=" Buscar matrícula..." 
+          (input)="dt.filterGlobal($event.target.value, 'contains')" 
+          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
+        />
+      </span>
+
+      <!-- Botón agregar -->
+      <button
+        pButton
+        type="button"
+        class="p-button-sm p-button-rounded p-button-success shadow-md"
+        label="Agregar"
+        icon="pi pi-plus"
+        [routerLink]="['/enrollments/new']"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Panel -->
+  <div class="card shadow-md rounded-lg bg-gray-50 p-5">
+    <!-- Subtítulo -->
+    <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+      <i class="pi pi-list text-gray-500"></i>
+      Lista de Matrículas
+    </h3>
+
+    <!-- Tabla -->
+    <p-table 
+      #dt
+      [value]="enrollments" 
+      stripedRows 
+      paginator 
+      [rows]="5" 
+      [rowsPerPageOptions]="[5,10,20]" 
+      [globalFilterFields]="['id','studentId','courseId','date','status']"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
+      [tableStyle]="{ 'min-width': '60rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-100 text-gray-700 uppercase text-sm tracking-wide">
+          <th pSortableColumn="id" class="px-4 py-2 text-left">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="studentId" class="px-4 py-2 text-left">
+            Estudiante <p-sortIcon field="studentId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="courseId" class="px-4 py-2 text-left">
+            Curso <p-sortIcon field="courseId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="date" class="px-4 py-2 text-left">
+            Fecha <p-sortIcon field="date"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" class="px-4 py-2 text-left">
+            Estado <p-sortIcon field="status"></p-sortIcon>
+          </th>
+          <th class="px-4 py-2 text-left">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-enrollment>
+        <tr class="hover:bg-gray-50 transition">
+          <td class="px-4 py-2 font-medium text-gray-800">{{ enrollment.id }}</td>
+          <td class="px-4 py-2">{{ studentName(enrollment.studentId) }}</td>
+          <td class="px-4 py-2">{{ courseTitle(enrollment.courseId) }}</td>
+          <td class="px-4 py-2">{{ enrollment.date | date:'dd/MM/yyyy' }}</td>
+          <td class="px-4 py-2">
+            <p-tag 
+              [value]="enrollment.status" 
+              [severity]="enrollment.status === 'ACTIVE' ? 'success' : 'danger'" 
+              styleClass="px-3 py-1 font-medium rounded-full"
+            ></p-tag>
+          </td>
+          <td class="px-4 py-2 flex gap-2">
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              class="p-button-sm p-button-rounded p-button-info" 
+              label="Editar">
+            </button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              class="p-button-sm p-button-rounded p-button-danger" 
+              label="Eliminar">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

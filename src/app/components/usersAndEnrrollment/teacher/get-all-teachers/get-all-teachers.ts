@@ -5,10 +5,11 @@ import { TeacherI } from '../../../../models/usersAndEnrrollment/teacher';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { Teacher } from '../../../../services/usersAndEnrrollment/teacher';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-teachers',
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-teachers.html',
   styleUrl: './get-all-teachers.css'
 })

@@ -11,11 +11,12 @@ import { TagService } from '../../../../services/forumsAndCommunity/tag-service'
 import { CourseTagI } from '../../../../models/forumsAndCommunity/courseTag';
 import { CourseI } from '../../../../models/academicManagment/course';
 import { TagI } from '../../../../models/forumsAndCommunity/tag';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-course-tags',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-course-tags.html',
   styleUrl: './get-all-course-tags.css',
   encapsulation: ViewEncapsulation.None

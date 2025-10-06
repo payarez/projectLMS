@@ -11,12 +11,13 @@ import { StudentService } from '../../../../services/usersAndEnrrollment/student
 import { PostI } from '../../../../models/forumsAndCommunity/post';
 import { ForumI } from '../../../../models/forumsAndCommunity/forum';
 import { StudentI } from '../../../../models/usersAndEnrrollment/student';
+import { TagModule } from 'primeng/tag';
 
 
 @Component({
   selector: 'app-get-all-posts',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-posts.html',
   styleUrl: './get-all-posts.css',
   encapsulation: ViewEncapsulation.None

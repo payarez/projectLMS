@@ -4,13 +4,15 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 
+
 import { StudentI } from '../../../../models/usersAndEnrrollment/student';
 import { StudentService } from '../../../../services/usersAndEnrrollment/student-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-students',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-students.html',
   styleUrl: './get-all-students.css',
   encapsulation: ViewEncapsulation.None

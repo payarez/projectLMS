@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 
 import { TagI } from '../../../../models/forumsAndCommunity/tag';
 import { TagService } from '../../../../services/forumsAndCommunity/tag-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-tags',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './get-all-tags.html',
   styleUrl: './get-all-tags.css'

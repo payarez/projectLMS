@@ -9,11 +9,12 @@ import { StudentI } from '../../../../models/usersAndEnrrollment/student';
 import { SubmissionService } from '../../../../services/academicActivities/submission-service';
 import { LessonService } from '../../../../services/academicManagment/lesson-service';
 import { StudentService } from '../../../../services/usersAndEnrrollment/student-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-submissions',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-submissions.html',
   styleUrl: './get-all-submissions.css',
   encapsulation: ViewEncapsulation.None

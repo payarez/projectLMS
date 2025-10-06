@@ -5,11 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { ForumI } from '../../../../models/forumsAndCommunity/forum';
 import { ForumService } from '../../../../services/forumsAndCommunity/forum-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-forums',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-forums.html',
   styleUrl: './get-all-forums.css',
   encapsulation: ViewEncapsulation.None

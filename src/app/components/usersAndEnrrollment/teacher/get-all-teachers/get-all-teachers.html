@@ -1,37 +1,101 @@
-<div class="card p-4">
-  <div class="flex place-content-end">
-    <button
-      pButton
-      type="button"
-      class="p-button-info"
-      label="Agregar"
-      icon="pi pi-plus"
-      [routerLink]="['/teachers/new']"
-    ></button>
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <!-- Encabezado con título, buscador y botón -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
+      <i class="pi pi-users text-white text-3xl text-shadow-custom"></i>
+      Gestión de Profesores
+    </h2>
+
+    <div class="flex items-center gap-3">
+      <!-- Barra de búsqueda -->
+      <i class="pi pi-search text-gray-400 text-white text-shadow-custom"></i>
+      <span class="p-input-icon-left w-64">
+        
+        <input 
+          pInputText 
+          type="text" 
+          placeholder=" Buscar profesor..." 
+          (input)="dt.filterGlobal($event.target.value, 'contains')" 
+          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
+        />
+      </span>
+
+      <!-- Botón agregar -->
+      <button
+        pButton
+        type="button"
+        class="p-button-sm p-button-rounded p-button-success shadow-md"
+        label="Agregar"
+        icon="pi pi-plus"
+        [routerLink]="['/teachers/new']"
+      ></button>
+    </div>
   </div>
 
-  <p-table [value]="teachers" stripedRows [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template #header>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Materia</th>
-        <th>Correo Electrónico</th>
-        <th>Teléfono</th>
-        <th>Fecha de Registro</th>
-        <th>Estado</th>
-      </tr>
-    </ng-template>
-    <ng-template #body let-teacher>
-      <tr>
-        <td>{{ teacher.id }}</td>
-        <td>{{ teacher.name }}</td>
-        <td>{{ teacher.subject }}</td>
-        <td>{{ teacher.email }}</td>
-        <td>{{ teacher.phone }}</td>
-        <td>{{ teacher.registration_date | date }}</td>
-        <td>{{ teacher.status }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <!-- Panel que contiene la tabla -->
+  <div class="card shadow-md rounded-lg bg-gray-50 p-5">
+    <!-- Subtítulo del panel -->
+    <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+      <i class="pi pi-list text-gray-500"></i>
+      Lista de Profesores
+    </h3>
+
+    <!-- Tabla -->
+    <p-table 
+      #dt
+      [value]="teachers" 
+      stripedRows 
+      paginator 
+      [rows]="5" 
+      [rowsPerPageOptions]="[5,10,20]" 
+      [globalFilterFields]="['id','name','subject','email','phone','status']"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
+      [tableStyle]="{ 'min-width': '60rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-100 text-gray-700 uppercase text-sm tracking-wide">
+          <th pSortableColumn="id" class="px-4 py-2 text-left">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name" class="px-4 py-2 text-left">
+            Nombre <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="subject" class="px-4 py-2 text-left">
+            Materia <p-sortIcon field="subject"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email" class="px-4 py-2 text-left">
+            Correo Electrónico <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phone" class="px-4 py-2 text-left">
+            Teléfono <p-sortIcon field="phone"></p-sortIcon>
+          </th>
+          <th pSortableColumn="registration_date" class="px-4 py-2 text-left">
+            Fecha de Registro <p-sortIcon field="registration_date"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" class="px-4 py-2 text-left">
+            Estado <p-sortIcon field="status"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-teacher>
+        <tr class="hover:bg-gray-50 transition">
+          <td class="px-4 py-2 font-medium text-gray-800">{{ teacher.id }}</td>
+          <td class="px-4 py-2">{{ teacher.name }}</td>
+          <td class="px-4 py-2">{{ teacher.subject }}</td>
+          <td class="px-4 py-2 text-gray-600">{{ teacher.email }}</td>
+          <td class="px-4 py-2">{{ teacher.phone }}</td>
+          <td class="px-4 py-2">{{ teacher.registration_date | date:'dd/MM/yyyy' }}</td>
+          <td class="px-4 py-2">
+            <p-tag 
+              [value]="teacher.status" 
+              [severity]="teacher.status === 'ACTIVE' ? 'success' : 'danger'" 
+              styleClass="px-3 py-1 font-medium rounded-full"
+            >
+            </p-tag>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

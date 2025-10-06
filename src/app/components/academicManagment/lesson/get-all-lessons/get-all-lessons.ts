@@ -7,10 +7,11 @@ import { LessonService } from '../../../../services/academicManagment/lesson-ser
 import { ModuleService } from '../../../../services/academicManagment/module-service';
 import { LessonI } from '../../../../models/academicManagment/lesson';
 import { ModuleI } from '../../../../models/academicManagment/module';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-lessons',standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-lessons.html',
   styleUrl: './get-all-lessons.css',
   encapsulation: ViewEncapsulation.None

@@ -7,11 +7,12 @@ import { AttemptI } from '../../../../models/academicActivities/attempt';
 import { LessonI } from '../../../../models/academicManagment/lesson';
 import { AttemptService } from '../../../../services/academicActivities/attempt-service';
 import { LessonService } from '../../../../services/academicManagment/lesson-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-attempts',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-attempts.html',
   styleUrl: './get-all-attempts.css',
   encapsulation: ViewEncapsulation.None

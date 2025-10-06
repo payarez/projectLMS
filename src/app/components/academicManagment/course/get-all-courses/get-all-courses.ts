@@ -7,11 +7,12 @@ import { CourseI } from '../../../../models/academicManagment/course';
 import { TeacherI } from '../../../../models/usersAndEnrrollment/teacher';
 import { CourseService } from '../../../../services/academicManagment/course-service';
 import { Teacher } from '../../../../services/usersAndEnrrollment/teacher';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-courses',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-courses.html',
   styleUrl: './get-all-courses.css',
   encapsulation: ViewEncapsulation.None,

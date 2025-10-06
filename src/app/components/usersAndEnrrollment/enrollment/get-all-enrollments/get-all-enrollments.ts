@@ -11,12 +11,13 @@ import { CourseI } from '../../../../models/academicManagment/course';
 import { EnrollmentService } from '../../../../services/usersAndEnrrollment/enrrollment-service';
 import { StudentService } from '../../../../services/usersAndEnrrollment/student-service';
 import { CourseService } from '../../../../services/academicManagment/course-service';
+import { TagModule } from 'primeng/tag';
 
 
 @Component({
   selector: 'app-get-all-enrollments',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-enrollments.html',
   styleUrl: './get-all-enrollments.css',
   encapsulation: ViewEncapsulation.None

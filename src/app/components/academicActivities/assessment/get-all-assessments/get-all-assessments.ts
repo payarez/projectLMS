@@ -9,10 +9,11 @@ import { SubmissionI } from '../../../../models/academicActivities/submission';
 
 import { AssessmentService } from '../../../../services/academicActivities/assessment-service';
 import { SubmissionService } from '../../../../services/academicActivities/submission-service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-get-all-assessments',standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, TagModule],
   templateUrl: './get-all-assessments.html',
   styleUrl: './get-all-assessments.css', 
   encapsulation: ViewEncapsulation.None
