@@ -15,3 +15,11 @@ export interface PostI {
   studentId: number;
   student?: StudentI;
 }
+
+export interface PostResponseI {
+  id?: number;
+  content: string;
+  date: Date;
+  forumId: number;
+  studentId: number;
+}

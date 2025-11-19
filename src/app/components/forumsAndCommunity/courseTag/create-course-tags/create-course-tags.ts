@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 import { CourseService } from '../../../../services/academicManagment/course-service';
 import { CourseTagService } from '../../../../services/forumsAndCommunity/course-tag-service';
 import { TagService } from '../../../../services/forumsAndCommunity/tag-service';
@@ -16,13 +19,16 @@ import { TagService } from '../../../../services/forumsAndCommunity/tag-service'
     CommonModule,
     ReactiveFormsModule,
     ButtonModule,
-    SelectModule
+    SelectModule,
+    ToastModule
   ],
   templateUrl: './create-course-tags.html',
-  styleUrl: './create-course-tags.css'
+  styleUrl: './create-course-tags.css',
+  providers: [MessageService]
 })
 export class CreateCourseTags implements OnInit {
   form: FormGroup;
+  loading: boolean = false;
   courses: any[] = [];
   tags: any[] = [];
 
@@ -36,7 +42,8 @@ export class CreateCourseTags implements OnInit {
     private router: Router,
     private courseTagService: CourseTagService,
     private courseService: CourseService,
-    private tagService: TagService
+    private tagService: TagService,
+    private messageService: MessageService
   ) {
     this.form = this.fb.group({
       courseId: [null, Validators.required],
@@ -46,23 +53,92 @@ export class CreateCourseTags implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courses = this.courseService.getCourses();
-    this.tags = this.tagService.getTags();
+    this.loadCourses();
+    this.loadTags();
   }
 
-  submit() {
+  /** 🔹 Cargar cursos desde el backend */
+  loadCourses(): void {
+    this.courseService.getAllCourses().subscribe({
+      next: (response: any) => {
+        this.courses = Array.isArray(response) ? response : response.courses ?? [];
+      },
+      error: (error) => {
+        console.error('Error cargando cursos:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar los cursos'
+        });
+      }
+    });
+  }
+
+  /** 🔹 Cargar tags desde el backend */
+  loadTags(): void {
+    this.tagService.getAllTags().subscribe({
+      next: (response: any) => {
+        this.tags = Array.isArray(response) ? response : response.tags ?? [];
+      },
+      error: (error) => {
+        console.error('Error cargando tags:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar los tags'
+        });
+      }
+    });
+  }
+
+  /** 🔹 Crear course tag */
+  submit(): void {
     if (this.form.valid) {
+      this.loading = true;
       const value = this.form.value;
-      this.courseTagService.addCourseTag({
+
+      this.courseTagService.createCourseTag({
         courseId: value.courseId,
         tagId: value.tagId,
         status: value.status
+      }).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'CourseTag creado correctamente'
+          });
+          setTimeout(() => this.router.navigate(['/coursetags']), 1000);
+        },
+        error: (error) => {
+          console.error('Error creando course tag:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo crear el CourseTag'
+          });
+          this.loading = false;
+        }
       });
-      this.router.navigate(['/coursetags']);
+    } else {
+      this.markFormGroupTouched();
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Advertencia',
+        detail: 'Por favor complete todos los campos requeridos'
+      });
     }
   }
 
-  cancelar() {
+  /** 🔹 Cancelar y volver a la lista */
+  cancelar(): void {
     this.router.navigate(['/coursetags']);
+  }
+
+  /** 🔹 Marcar todos los campos como tocados */
+  private markFormGroupTouched(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.markAsTouched();
+    });
   }
 }

@@ -20,6 +20,9 @@
             placeholder="Escribe tu mensaje aquí..."
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></textarea>
+          <small class="text-red-600 text-sm" *ngIf="form.get('content')?.touched && form.get('content')?.invalid">
+            El contenido es requerido
+          </small>
         </div>
 
         <!-- Foro -->
@@ -33,6 +36,9 @@
             placeholder="Seleccione foro"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('forumId')?.touched && form.get('forumId')?.invalid">
+            Foro es requerido
+          </small>
         </div>
 
         <!-- Estudiante -->
@@ -46,6 +52,9 @@
             placeholder="Seleccione estudiante"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('studentId')?.touched && form.get('studentId')?.invalid">
+            Estudiante es requerido
+          </small>
         </div>
 
         <!-- Estado -->
@@ -59,6 +68,9 @@
             placeholder="Seleccione estado"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('status')?.touched && form.get('status')?.invalid">
+            Estado es requerido
+          </small>
         </div>
 
       </div>
@@ -85,4 +97,7 @@
       </div>
     </form>
   </div>
+
+  <!-- Toast para mostrar mensajes -->
+  <p-toast></p-toast>
 </div>

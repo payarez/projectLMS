@@ -7,11 +7,16 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
+import { TextareaModule } from 'primeng/textarea';
+import { Select } from 'primeng/select';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+
 import { LessonI } from '../../../../models/academicManagment/lesson';
 import { StudentI } from '../../../../models/usersAndEnrrollment/student';
 import { SubmissionService } from '../../../../services/academicActivities/submission-service';
 import { LessonService } from '../../../../services/academicManagment/lesson-service';
-import { StudentService } from '../../../../services/usersAndEnrrollment/student-service';
+import { Student } from '../../../../services/usersAndEnrrollment/student-service';
 
 @Component({
   selector: 'app-create-submissions',
@@ -22,15 +27,21 @@ import { StudentService } from '../../../../services/usersAndEnrrollment/student
     ButtonModule,
     InputTextModule,
     SelectModule,
-    DatePickerModule
+    DatePickerModule,
+    TextareaModule,
+    ToastModule,
+    Select
   ],
   templateUrl: './create-submissions.html',
-  styleUrl: './create-submissions.css'
+  styleUrl: './create-submissions.css',
+  providers: [MessageService]
 })
 export class CreateSubmissions implements OnInit {
   form: FormGroup;
-  students: StudentI[] = [];
-  lessons: LessonI[] = [];
+  loading: boolean = false;
+
+  lessons: { label: string; value: number }[] = [];
+  students: { label: string; value: number }[] = [];
 
   statuses = [
     { label: 'Activo', value: 'ACTIVE' },
@@ -41,38 +52,137 @@ export class CreateSubmissions implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private submissionService: SubmissionService,
-    private studentService: StudentService,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private studentService: Student,
+    private messageService: MessageService
   ) {
+
     this.form = this.fb.group({
-      content: ['', Validators.required],
-      submittedAt: [new Date(), Validators.required],
-      status: ['ACTIVE', Validators.required],
+      content: ['', [Validators.required, Validators.minLength(3)]],
+      submittedAt: ['', Validators.required],
       studentId: [null, Validators.required],
-      lessonId: [null, Validators.required]
+      lessonId: [null, Validators.required],
+      status: ['ACTIVE', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.students = this.studentService.getStudents();
-    this.lessons = this.lessonService.getLessons();
+    this.loadLessons();
+    this.loadStudents();
   }
 
-  submit() {
+  // =====================================
+  //        🔹 CARGAR LECCIONES
+  // =====================================
+  loadLessons(): void {
+    this.lessonService.getAllLessons().subscribe({
+      next: (response: any) => {
+
+        const list: LessonI[] = Array.isArray(response)
+          ? response
+          : response.lessons ?? [];
+
+        this.lessons = list.map((l: LessonI) => ({
+          label: l.title,
+          value: l.id!
+        }));
+      },
+      error: (error) => {
+        console.error('Error cargando lecciones:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar las lecciones'
+        });
+      }
+    });
+  }
+
+  // =====================================
+  //        🔹 CARGAR ESTUDIANTES
+  // =====================================
+  loadStudents(): void {
+    this.studentService.getAllStudents().subscribe({
+      next: (response: any) => {
+
+        const list: StudentI[] = Array.isArray(response)
+          ? response
+          : response.students ?? [];
+
+        this.students = list.map((s: StudentI) => ({
+          label: s.name,
+          value: s.id!
+        }));
+      },
+      error: (error) => {
+        console.error('Error cargando estudiantes:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar los estudiantes'
+        });
+      }
+    });
+  }
+
+  // =====================================
+  //        🔹 CREAR SUBMISSION
+  // =====================================
+  submit(): void {
     if (this.form.valid) {
-      const value = this.form.value;
-      this.submissionService.addSubmission({
-        content: value.content,
-        submittedAt: value.submittedAt ?? new Date(),
-        status: value.status,
-        studentId: value.studentId,
-        lessonId: value.lessonId
+      this.loading = true;
+      const submissionData = this.form.value;
+
+      this.submissionService.createSubmission(submissionData).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Entrega creada correctamente'
+          });
+
+          setTimeout(() => {
+            this.router.navigate(['/submissions']);
+          }, 1000);
+        },
+        error: (error) => {
+          console.error('Error al crear submission:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al crear la entrega'
+          });
+          this.loading = false;
+        }
       });
-      this.router.navigate(['/submissions']);
+
+    } else {
+      this.markFormGroupTouched();
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Advertencia',
+        detail: 'Por favor complete todos los campos requeridos'
+      });
     }
   }
 
-  cancelar() {
+  cancelar(): void {
     this.router.navigate(['/submissions']);
+  }
+
+  private markFormGroupTouched(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.markAsTouched();
+    });
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.form.get(fieldName);
+    if (field?.errors && field?.touched) {
+      if (field.errors['required']) return `${fieldName} es requerido`;
+      if (field.errors['minlength'])
+        return `${fieldName} debe tener al menos ${field.errors['minlength'].requiredLength} caracteres`;
+    }
+    return '';
   }
 }

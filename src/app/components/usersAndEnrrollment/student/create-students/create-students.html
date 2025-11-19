@@ -1,5 +1,7 @@
 <div class="p-6 bg-custom-gradient w-full h-full">
-  <div class="card shadow-md rounded-lg bg-gray-50 p-6 max-w-2xl mx-auto">
+  <!-- Panel del formulario -->
+  <div class="card shadow-md rounded-lg bg-gray-50 p-6 max-w-4xl mx-auto">
+    <!-- Encabezado -->
     <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
       <i class="pi pi-user text-3xl text-gray-700"></i>
       Crear Usuario
@@ -11,22 +13,45 @@
         <!-- Nombre -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Nombre</label>
-          <input pInputText formControlName="name" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="Nombre completo" />
+          <input
+            pInputText
+            formControlName="name"
+            class="w-full rounded-md shadow-sm border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 p-2"
+            placeholder="Nombre completo"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('name')">
+            {{ getFieldError('name') }}
+          </small>
         </div>
 
         <!-- Email -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Email</label>
-          <input pInputText formControlName="email" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="ejemplo@correo.com" />
+          <input
+            pInputText
+            formControlName="email"
+            class="w-full rounded-md shadow-sm border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 p-2"
+            placeholder="ejemplo@correo.com"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('email')">
+            {{ getFieldError('email') }}
+          </small>
         </div>
 
         <!-- Estado -->
         <div class="md:col-span-2">
           <label class="block mb-2 font-semibold text-gray-700">Estado</label>
-          <select formControlName="status" class="w-full p-inputtext rounded-md shadow-sm border border-gray-300">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
-          </select>
+          <p-select
+            [options]="statuses"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="status"
+            placeholder="Seleccione estado"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('status')">
+            {{ getFieldError('status') }}
+          </small>
         </div>
 
       </div>
@@ -37,6 +62,7 @@
           <button
             pButton
             type="submit"
+            [disabled]="loading"
             class="p-button p-component bg-green-600 text-white hover:bg-green-700"
             label="Guardar"
             icon="pi pi-save"
@@ -53,4 +79,7 @@
       </div>
     </form>
   </div>
+
+  <!-- Toast para mostrar mensajes -->
+  <p-toast></p-toast>
 </div>

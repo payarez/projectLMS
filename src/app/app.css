@@ -27,3 +27,37 @@ section {
 footer {
     grid-area: footer;
 }
+
+main {
+  min-height: 100vh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.bg-custom-gradient-dark {
+  background: linear-gradient(135deg, #152338, #21444e, #152338);
+  color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}

@@ -1,14 +1,20 @@
 <div class="p-6 bg-custom-gradient w-full h-full">
-  <!-- Encabezado -->
+  <!-- 🔹 Diálogo de confirmación y notificaciones -->
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+  <p-toast></p-toast>
+
+  <!-- 🔹 Encabezado con título, buscador y botón -->
   <div class="flex justify-between items-center mb-6">
-    <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
+    <h2
+      class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom"
+    >
       <i class="pi pi-briefcase text-white text-3xl text-shadow-custom"></i>
       Gestión de Cursos
     </h2>
 
     <div class="flex items-center gap-3">
       <!-- Barra de búsqueda -->
-      <i class="pi pi-search text-white text-shadow-custom"></i>
+      <i class="pi pi-search text-gray-300 text-white text-shadow-custom"></i>
       <span class="p-input-icon-left w-64">
         <input
           pInputText
@@ -31,25 +37,27 @@
     </div>
   </div>
 
-  <!-- Panel -->
+  <!-- 🔹 Panel que contiene la tabla -->
   <div class="card shadow-md rounded-lg bg-gray-50 p-5">
-    <!-- Subtítulo -->
     <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
       <i class="pi pi-list text-gray-500"></i>
       Lista de Cursos
     </h3>
 
-    <!-- Tabla -->
+    <!-- 🔹 Tabla -->
     <p-table
       #dt
       [value]="courses"
+      [loading]="loading"
       stripedRows
       paginator
       [rows]="5"
-      [rowsPerPageOptions]="[5,10,20]"
+      [rowsPerPageOptions]="[5, 10, 20]"
       [globalFilterFields]="['id','title','description','startDate','endDate','teacherId','status']"
       class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
       [tableStyle]="{ 'min-width': '70rem' }"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
     >
       <ng-template pTemplate="header">
         <tr class="bg-gray-100 text-gray-700 uppercase text-sm tracking-wide">
@@ -74,6 +82,7 @@
           <th pSortableColumn="status" class="px-4 py-2 text-left">
             Estado <p-sortIcon field="status"></p-sortIcon>
           </th>
+          <th class="text-center px-4 py-2">Acciones</th>
         </tr>
       </ng-template>
 
@@ -82,8 +91,8 @@
           <td class="px-4 py-2 font-medium text-gray-800">{{ course.id }}</td>
           <td class="px-4 py-2">{{ course.title }}</td>
           <td class="px-4 py-2">{{ course.description }}</td>
-          <td class="px-4 py-2">{{ course.startDate | date:'shortDate' }}</td>
-          <td class="px-4 py-2">{{ course.endDate | date:'shortDate' }}</td>
+          <td class="px-4 py-2">{{ course.startDate | date: 'shortDate' }}</td>
+          <td class="px-4 py-2">{{ course.endDate | date: 'shortDate' }}</td>
           <td class="px-4 py-2">{{ teacherName(course.teacherId) }}</td>
           <td class="px-4 py-2">
             <p-tag
@@ -91,6 +100,26 @@
               [severity]="course.status === 'ACTIVE' ? 'success' : 'danger'"
               styleClass="px-3 py-1 font-medium rounded-full"
             ></p-tag>
+          </td>
+          <td class="text-center">
+            <div class="flex justify-center gap-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text p-button-warning"
+                [routerLink]="['/courses/edit', course.id]"
+                pTooltip="Editar"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger"
+                (click)="deleteCourse(course)"
+                pTooltip="Eliminar"
+              ></button>
+            </div>
           </td>
         </tr>
       </ng-template>

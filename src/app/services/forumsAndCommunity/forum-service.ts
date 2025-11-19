@@ -1,34 +1,64 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ForumI } from '../../models/forumsAndCommunity/forum';
+import { AuthService } from '../auth.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ForumService {
-  private readonly _state = new BehaviorSubject<ForumI[]>([
-    // example data
-    {
-      id: 1, title: 'General Discussion', courseId: 1, status: 'ACTIVE',
-      description: 'first forum'
-    },
-    {
-      id: 2, title: 'Homework Help', courseId: 1, status: 'INACTIVE',
-      description: 'solve your doubts here'
+  private baseUrl = 'http://localhost:4000/api/forums';
+  private forumsSubject = new BehaviorSubject<ForumI[]>([]);
+  public forums$ = this.forumsSubject.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  /** 🔹 Headers con token de autorización */
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
     }
-  ]);
-
-  readonly forums$ = this._state.asObservable();
-  private get value(): ForumI[] { return this._state.value; }
-
-  // GET all forums
-  getForums(): ForumI[] {
-    return this.value;
+    return headers;
   }
 
-  // ADD a new forum
-  addForum(forum: Omit<ForumI, 'id'>): ForumI {
-    const nextId = this.value.length ? Math.max(...this.value.map(f => f.id ?? 0)) + 1 : 1;
-    const newForum: ForumI = { id: nextId, ...forum };
-    this._state.next([...this.value, newForum]);
-    return newForum;
+  /** 🔹 Obtener todos los foros desde backend */
+  getAllForums(): Observable<ForumI[]> {
+    return this.http.get<ForumI[]>(this.baseUrl, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Obtener foro por ID */
+  getForumById(id: number): Observable<ForumI> {
+    return this.http.get<ForumI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Crear un nuevo foro */
+  createForum(forum: Omit<ForumI, 'id'>): Observable<ForumI> {
+    return this.http.post<ForumI>(this.baseUrl, forum, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Actualizar un foro existente */
+  updateForum(id: number, forum: Partial<ForumI>): Observable<ForumI> {
+    return this.http.patch<ForumI>(`${this.baseUrl}/${id}`, forum, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Eliminar foro */
+  deleteForum(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Actualizar lista local de foros */
+  updateLocalForums(forums: ForumI[]): void {
+    this.forumsSubject.next(forums);
+  }
+
+  /** 🔹 Refrescar lista desde el servidor */
+  refreshForums(): void {
+    this.getAllForums().subscribe(forums => this.forumsSubject.next(forums));
   }
 }

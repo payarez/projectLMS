@@ -1,5 +1,9 @@
 <div class="p-6 bg-custom-gradient w-full h-full">
-  <!-- Encabezado -->
+  <!-- 🔹 Diálogo de confirmación y notificaciones -->
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+  <p-toast></p-toast>
+
+  <!-- Encabezado con título, buscador y botón -->
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
       <i class="pi pi-tags text-white text-3xl text-shadow-custom"></i>
@@ -8,7 +12,7 @@
 
     <div class="flex items-center gap-3">
       <!-- Barra de búsqueda -->
-      <i class="pi pi-search text-white text-shadow-custom"></i>
+      <i class="pi pi-search text-gray-400 text-white text-shadow-custom"></i>
       <span class="p-input-icon-left w-64">
         <input
           pInputText
@@ -31,9 +35,9 @@
     </div>
   </div>
 
-  <!-- Panel -->
+  <!-- Panel que contiene la tabla -->
   <div class="card shadow-md rounded-lg bg-gray-50 p-5">
-    <!-- Subtítulo -->
+    <!-- Subtítulo del panel -->
     <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
       <i class="pi pi-list text-gray-500"></i>
       Lista de Tags
@@ -43,13 +47,16 @@
     <p-table
       #dt
       [value]="tags"
+      [loading]="loading"
       stripedRows
       paginator
       [rows]="5"
-      [rowsPerPageOptions]="[5,10,20]"
-      [globalFilterFields]="['id','name','status']"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [globalFilterFields]="['id', 'name', 'status']"
       class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
       [tableStyle]="{ 'min-width': '40rem' }"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
     >
       <ng-template pTemplate="header">
         <tr class="bg-gray-100 text-gray-700 uppercase text-sm tracking-wide">
@@ -62,6 +69,7 @@
           <th pSortableColumn="status" class="px-4 py-2 text-left">
             Estado <p-sortIcon field="status"></p-sortIcon>
           </th>
+          <th class="text-center px-4 py-2">Acciones</th>
         </tr>
       </ng-template>
 
@@ -75,6 +83,26 @@
               [severity]="tag.status === 'ACTIVE' ? 'success' : 'danger'"
               styleClass="px-3 py-1 font-medium rounded-full"
             ></p-tag>
+          </td>
+          <td class="text-center">
+            <div class="flex justify-center gap-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text p-button-warning"
+                [routerLink]="['/tags/edit', tag.id]"
+                pTooltip="Editar"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger"
+                (click)="deleteTag(tag)"
+                pTooltip="Eliminar"
+              ></button>
+            </div>
           </td>
         </tr>
       </ng-template>

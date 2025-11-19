@@ -1,28 +1,71 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { SubmissionI } from '../../models/academicActivities/submission';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubmissionService {
-  private readonly _state = new BehaviorSubject<SubmissionI[]>([
-    // example data
-    { id: 1, content: 'Answer document uploaded', submittedAt: new Date('2025-09-01T10:00:00'), studentId: 1, lessonId: 1, status: 'ACTIVE' },
-    { id: 2, content: 'Project PDF uploaded', submittedAt: new Date('2025-09-02T15:30:00'), studentId: 2, lessonId: 1, status: 'INACTIVE' }
-  ]);
+  private baseUrl = 'http://localhost:4000/api/submissions';
 
-  readonly submissions$ = this._state.asObservable();
-  private get value(): SubmissionI[] { return this._state.value; }
+  private submissionsSubject = new BehaviorSubject<SubmissionI[]>([]);
+  public submissions$ = this.submissionsSubject.asObservable();
 
-  // GET all submissions
-  getSubmissions(): SubmissionI[] {
-    return this.value;
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return headers;
   }
 
-  // ADD a new submission
-  addSubmission(submission: Omit<SubmissionI, 'id'>): SubmissionI {
-    const nextId = this.value.length ? Math.max(...this.value.map(s => s.id ?? 0)) + 1 : 1;
-    const newSubmission: SubmissionI = { id: nextId, ...submission };
-    this._state.next([...this.value, newSubmission]);
-    return newSubmission;
+  /* ===============================
+          CRUD PRINCIPALES
+     =============================== */
+
+  getAllSubmissions(): Observable<SubmissionI[]> {
+    return this.http.get<SubmissionI[]>(this.baseUrl, { headers: this.getHeaders() });
+  }
+
+  getSubmissionById(id: number): Observable<SubmissionI> {
+    return this.http.get<SubmissionI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createSubmission(submission: SubmissionI): Observable<SubmissionI> {
+    return this.http.post<SubmissionI>(this.baseUrl, submission, { headers: this.getHeaders() });
+  }
+
+  updateSubmission(id: number, submission: SubmissionI): Observable<SubmissionI> {
+    return this.http.patch<SubmissionI>(`${this.baseUrl}/${id}`, submission, { headers: this.getHeaders() });
+  }
+
+  deleteSubmission(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deleteSubmissionLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  /* ===============================
+          STATE MANAGEMENT
+     =============================== */
+
+  updateLocalSubmissions(submissions: SubmissionI[]): void {
+    this.submissionsSubject.next(submissions);
+  }
+
+  refreshSubmissions(): void {
+    this.getAllSubmissions().subscribe(submissions => {
+      this.submissionsSubject.next(submissions);
+    });
   }
 }

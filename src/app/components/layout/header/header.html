@@ -1,19 +1,37 @@
 <div class="grid grid-cols-3 items-center h-full headerFlow p-6">
+  <!-- Logo -->
   <div class="flex justify-center items-center">
     <img src="images/logoTest.png" alt="Logo LMS" width="120" class="logo-redondo" />
   </div>
 
+  <!-- Título -->
   <div class="text-center flex flex-col items-center justify-center">
-    <a href="/"><h1 class="text-4xl font-serif font-bold tracking-wide">EduConnect LMS</h1></a>
+    <a href="/">
+      <h1 class="text-4xl font-serif font-bold tracking-wide">EduConnect LMS</h1>
+    </a>
     <p class="text-sm italic font-light tracking-wider">
       Plataforma para potenciar el aprendizaje y la innovación educativa
     </p>
   </div>
 
-  <div class="flex justify-center items-center">
-    <button #menuBtn type="button" (click)="menu.toggle($event)">
+  <!-- Botones a la derecha -->
+  <div class="flex justify-center items-center gap-4">
+    <!-- Notificaciones -->
+    <button *ngIf="isLoggedIn" type="button" class="text-orange-500 bg-gray-100 hover:bg-gray-200 rounded shadow hover:shadow-lg flex items-center justify-center w-15 h-15 user-icon">
+      <p-overlaybadge value="">
+        <i class="pi pi-bell text-2xl"></i>
+      </p-overlaybadge>
+    </button>
+
+    <!-- Menú usuario -->
+    <button
+      type="button"
+      (click)="menu.toggle($event)">
       <img src="images/perfilTest.png" alt="Usuario" width="80" class="user-icon cursor-pointer" />
     </button>
-    <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
   </div>
+
+  <!-- Menú contextual -->
+  <p-tieredmenu #menu [model]="items" [popup]="true"></p-tieredmenu>
 </div>
+

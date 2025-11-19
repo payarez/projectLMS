@@ -14,3 +14,11 @@ export interface EnrollmentI {
   courseId: number;
   course?: CourseI;
 }
+
+export interface EnrollmentResponseI {
+  id?: number;
+  date: Date;
+  studentId: number;
+  courseId: number;
+  
+}

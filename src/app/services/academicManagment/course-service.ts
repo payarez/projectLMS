@@ -1,28 +1,62 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CourseI } from '../../models/academicManagment/course';
+import { AuthService } from '../auth.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CourseService {
-  private readonly _state = new BehaviorSubject<CourseI[]>([
-    // example data
-    { id: 1, title: 'Web Development', description: 'Learn the fundamentals of web development.', startDate: new Date('2025-01-01'), endDate: new Date('2025-06-30'), teacherId: 1, status: 'ACTIVE' },
-    { id: 2, title: 'Databases 101', description: 'Introduction to relational databases.', startDate: new Date('2025-02-01'), endDate: new Date('2025-07-15'), teacherId: 2, status: 'INACTIVE' }
-  ]);
+  private baseUrl = 'http://localhost:4000/api/courses';
+  private coursesSubject = new BehaviorSubject<CourseI[]>([]);
+  public courses$ = this.coursesSubject.asObservable();
 
-  readonly courses$ = this._state.asObservable();
-  private get value(): CourseI[] { return this._state.value; }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
-  // GET all courses
-  getCourses(): CourseI[] {
-    return this.value;
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  // ADD a new course
-  addCourse(course: Omit<CourseI, 'id'>): CourseI {
-    const nextId = this.value.length ? Math.max(...this.value.map(c => c.id ?? 0)) + 1 : 1;
-    const newCourse: CourseI = { id: nextId, ...course };
-    this._state.next([...this.value, newCourse]);
-    return newCourse;
+  getAllCourses(): Observable<CourseI[]> {
+    return this.http.get<CourseI[]>(this.baseUrl, { headers: this.getHeaders() });
+  }
+
+  getCourseById(id: number): Observable<CourseI> {
+    return this.http.get<CourseI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createCourse(course: CourseI): Observable<CourseI> {
+    return this.http.post<CourseI>(this.baseUrl, course, { headers: this.getHeaders() });
+  }
+
+  updateCourse(id: number, course: CourseI): Observable<CourseI> {
+    return this.http.patch<CourseI>(`${this.baseUrl}/${id}`, course, { headers: this.getHeaders() });
+  }
+
+  deleteCourse(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deleteCourseLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  updateLocalCourses(courses: CourseI[]): void {
+    this.coursesSubject.next(courses);
+  }
+
+  refreshCourses(): void {
+    this.getAllCourses().subscribe(courses => {
+      this.coursesSubject.next(courses);
+    });
   }
 }

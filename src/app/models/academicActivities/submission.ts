@@ -2,7 +2,7 @@ import { LessonI } from "../academicManagment/lesson";
 import { StudentI } from "../usersAndEnrrollment/student";
 
 export interface SubmissionI {
-  id: number;
+  id?: number;
   content: string;
   submittedAt: Date;
   status: "ACTIVE" | "INACTIVE";
@@ -13,4 +13,12 @@ export interface SubmissionI {
 
   lessonId: number;
   lesson?: LessonI;
+}
+
+export interface SubmissionResponseI {
+  id?: number;
+  content: string;
+  submittedAt: Date;
+  studentId: number;
+  lessonId: number;
 }

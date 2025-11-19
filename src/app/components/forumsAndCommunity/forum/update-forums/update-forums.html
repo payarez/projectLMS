@@ -1,1 +1,99 @@
-<p>update-forums works!</p>
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <div class="card shadow-md rounded-lg bg-gray-50 p-6 max-w-4xl mx-auto">
+    <!-- Encabezado -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+      <i class="pi pi-comments text-3xl text-gray-700"></i>
+      Editar Foro
+    </h2>
+
+    <!-- Formulario -->
+    <form [formGroup]="form" (ngSubmit)="submit()" class="w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Título -->
+        <div class="md:col-span-2">
+          <label class="block mb-2 font-semibold text-gray-700">Título</label>
+          <input
+            pInputText
+            type="text"
+            formControlName="title"
+            placeholder="Ingrese título del foro"
+            class="w-full rounded-md shadow-sm border border-gray-300 p-2"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('title')">
+            {{ getFieldError('title') }}
+          </small>
+        </div>
+
+        <!-- Descripción -->
+        <div class="md:col-span-2">
+          <label class="block mb-2 font-semibold text-gray-700">Descripción</label>
+          <input
+            pInputText
+            type="text"
+            formControlName="description"
+            placeholder="Ingrese descripción del foro"
+            class="w-full rounded-md shadow-sm border border-gray-300 p-2"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('description')">
+            {{ getFieldError('description') }}
+          </small>
+        </div>
+
+        <!-- Curso -->
+        <div>
+          <label class="block mb-2 font-semibold text-gray-700">Curso</label>
+          <p-select
+            [options]="courses"
+            optionLabel="title"
+            optionValue="id"
+            formControlName="courseId"
+            placeholder="Seleccione curso"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('courseId')">
+            {{ getFieldError('courseId') }}
+          </small>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block mb-2 font-semibold text-gray-700">Estado</label>
+          <p-select
+            [options]="statuses"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="status"
+            placeholder="Seleccione estado"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-center mt-6">
+        <div class="bg-gray-100 rounded-lg p-4 flex gap-4 items-center shadow-sm">
+          <button
+            pButton
+            type="submit"
+            [disabled]="loading"
+            class="p-button p-component bg-blue-600 text-white hover:bg-blue-700"
+            label="Actualizar"
+            icon="pi pi-refresh"
+          ></button>
+          <button
+            pButton
+            type="button"
+            class="p-button p-component bg-gray-400 text-white hover:bg-gray-500"
+            label="Cancelar"
+            icon="pi pi-times"
+            (click)="cancelar()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-toast></p-toast>

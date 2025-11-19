@@ -1,8 +1,10 @@
 <div class="p-6 bg-custom-gradient w-full h-full">
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+
   <!-- Encabezado -->
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
-      <i class="pi pi-file-text text-white text-3xl text-shadow-custom"></i>
+      <i class="pi pi-check-circle text-white text-3xl text-shadow-custom"></i>
       Gestión de Entregas
     </h2>
 
@@ -15,7 +17,8 @@
           type="text"
           placeholder=" Buscar submission..."
           (input)="dt.filterGlobal($event.target.value, 'contains')"
-          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
+          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 
+                 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
         />
       </span>
 
@@ -47,8 +50,11 @@
       paginator
       [rows]="5"
       [rowsPerPageOptions]="[5,10,20]"
-      [globalFilterFields]="['id','content','submittedAt','lessonId','studentId','status']"
-      class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
+      [globalFilterFields]="[
+        'id','content','submittedAt','lessonId','studentId','status'
+      ]"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped 
+             rounded-md overflow-hidden bg-white"
       [tableStyle]="{ 'min-width': '70rem' }"
     >
       <ng-template pTemplate="header">
@@ -56,31 +62,43 @@
           <th pSortableColumn="id" class="px-4 py-2 text-left">
             ID <p-sortIcon field="id"></p-sortIcon>
           </th>
+
           <th pSortableColumn="content" class="px-4 py-2 text-left">
             Contenido <p-sortIcon field="content"></p-sortIcon>
           </th>
+
           <th pSortableColumn="submittedAt" class="px-4 py-2 text-left">
             Fecha <p-sortIcon field="submittedAt"></p-sortIcon>
           </th>
+
           <th pSortableColumn="lessonId" class="px-4 py-2 text-left">
             Lección <p-sortIcon field="lessonId"></p-sortIcon>
           </th>
+
           <th pSortableColumn="studentId" class="px-4 py-2 text-left">
             Estudiante <p-sortIcon field="studentId"></p-sortIcon>
           </th>
+
           <th pSortableColumn="status" class="px-4 py-2 text-left">
             Estado <p-sortIcon field="status"></p-sortIcon>
           </th>
+
+          <th class="px-4 py-2 text-center">Acciones</th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-submission>
         <tr class="hover:bg-gray-50 transition">
           <td class="px-4 py-2 font-medium text-gray-800">{{ submission.id }}</td>
+
           <td class="px-4 py-2">{{ submission.content }}</td>
+
           <td class="px-4 py-2">{{ submission.submittedAt | date:'short' }}</td>
-          <td class="px-4 py-2">{{ lessonTitle(submission.lessonId) }}</td>
+
+          <td class="px-4 py-2">{{ lessonName(submission.lessonId) }}</td>
+
           <td class="px-4 py-2">{{ studentName(submission.studentId) }}</td>
+
           <td class="px-4 py-2">
             <p-tag
               [value]="submission.status"
@@ -88,8 +106,36 @@
               styleClass="px-3 py-1 font-medium rounded-full"
             ></p-tag>
           </td>
+
+          <!-- ACCIONES -->
+          <td class="text-center">
+            <div class="flex justify-center gap-2">
+
+              <!-- Editar -->
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text p-button-warning"
+                [routerLink]="['/submissions/edit/', submission.id]"
+                pTooltip="Editar"
+              ></button>
+
+              <!-- Eliminar -->
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger"
+                (click)="deleteSubmission(submission)"
+                pTooltip="Eliminar"
+              ></button>
+
+            </div>
+          </td>
         </tr>
       </ng-template>
+
     </p-table>
   </div>
 </div>

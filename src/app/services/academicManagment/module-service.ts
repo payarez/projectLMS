@@ -1,28 +1,71 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ModuleI } from '../../models/academicManagment/module';
+import { AuthService } from '../auth.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ModuleService {
-  private readonly _state = new BehaviorSubject<ModuleI[]>([
-    // example data
-    { id: 1, title: 'Getting Started', description: 'Introduction to the basics of the course.', courseId: 1, status: 'ACTIVE' },
-    { id: 2, title: 'Advanced Concepts', description: 'Deep dive into advanced topics.', courseId: 1, status: 'INACTIVE' }
-  ]);
+  private baseUrl = 'http://localhost:4000/api/modules'; // ajusta tu endpoint
+  private modulesSubject = new BehaviorSubject<ModuleI[]>([]);
+  public modules$ = this.modulesSubject.asObservable();
 
-  readonly modules$ = this._state.asObservable();
-  private get value(): ModuleI[] { return this._state.value; }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
-  // GET all modules
-  getModules(): ModuleI[] {
-    return this.value;
+  /** 🧩 Añade el token a las cabeceras */
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  // ADD a new module
-  addModule(module: Omit<ModuleI, 'id'>): ModuleI {
-    const nextId = this.value.length ? Math.max(...this.value.map(m => m.id ?? 0)) + 1 : 1;
-    const newModule: ModuleI = { id: nextId, ...module };
-    this._state.next([...this.value, newModule]);
-    return newModule;
+  /** 🔹 Obtener todos los módulos */
+  getAllModules(): Observable<ModuleI[]> {
+    return this.http.get<ModuleI[]>(this.baseUrl, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Obtener un módulo por ID */
+  getModuleById(id: number): Observable<ModuleI> {
+    return this.http.get<ModuleI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Crear un nuevo módulo */
+  createModule(module: ModuleI): Observable<ModuleI> {
+    return this.http.post<ModuleI>(this.baseUrl, module, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Actualizar un módulo existente */
+  updateModule(id: number, module: ModuleI): Observable<ModuleI> {
+    return this.http.patch<ModuleI>(`${this.baseUrl}/${id}`, module, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Eliminar un módulo (físico) */
+  deleteModule(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Eliminación lógica de un módulo */
+  deleteModuleLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  /** 🔹 Actualizar estado local */
+  updateLocalModules(modules: ModuleI[]): void {
+    this.modulesSubject.next(modules);
+  }
+
+  /** 🔹 Refrescar lista desde la API */
+  refreshModules(): void {
+    this.getAllModules().subscribe(modules => {
+      this.modulesSubject.next(modules);
+    });
   }
 }

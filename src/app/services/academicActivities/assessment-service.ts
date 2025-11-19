@@ -1,28 +1,84 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { AssessmentI } from '../../models/academicActivities/assessment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AssessmentService {
-  private readonly _state = new BehaviorSubject<AssessmentI[]>([
-    // example data
-    { id: 1, grade: 95, feedback: 'Excellent work!', date: new Date('2025-09-15T10:00:00'), submissionId: 1, status: 'ACTIVE' },
-    { id: 2, grade: 70, feedback: 'Needs improvement.', date: new Date('2025-09-16T14:00:00'), submissionId: 2, status: 'INACTIVE' }
-  ]);
 
-  readonly assessments$ = this._state.asObservable();
-  private get value(): AssessmentI[] { return this._state.value; }
+  private baseUrl = 'http://localhost:4000/api/assessments';
 
-  // GET all assessments
-  getAssessments(): AssessmentI[] {
-    return this.value;
+  private assessmentsSubject = new BehaviorSubject<AssessmentI[]>([]);
+  public assessments$ = this.assessmentsSubject.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return headers;
   }
 
-  // ADD a new assessment
-  addAssessment(assessment: Omit<AssessmentI, 'id'>): AssessmentI {
-    const nextId = this.value.length ? Math.max(...this.value.map(a => a.id ?? 0)) + 1 : 1;
-    const newAssessment: AssessmentI = { id: nextId, ...assessment };
-    this._state.next([...this.value, newAssessment]);
-    return newAssessment;
+  /* ===============================
+          CRUD PRINCIPALES
+     =============================== */
+
+  getAllAssessments(): Observable<AssessmentI[]> {
+    return this.http.get<AssessmentI[]>(this.baseUrl, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getAssessmentById(id: number): Observable<AssessmentI> {
+    return this.http.get<AssessmentI>(`${this.baseUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  createAssessment(assessment: AssessmentI): Observable<AssessmentI> {
+    return this.http.post<AssessmentI>(this.baseUrl, assessment, {
+      headers: this.getHeaders()
+    });
+  }
+
+  updateAssessment(id: number, assessment: AssessmentI): Observable<AssessmentI> {
+    return this.http.patch<AssessmentI>(`${this.baseUrl}/${id}`, assessment, {
+      headers: this.getHeaders()
+    });
+  }
+
+  deleteAssessment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  deleteAssessmentLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  /* ===============================
+         STATE MANAGEMENT
+     =============================== */
+
+  updateLocalAssessments(assessments: AssessmentI[]): void {
+    this.assessmentsSubject.next(assessments);
+  }
+
+  refreshAssessments(): void {
+    this.getAllAssessments().subscribe(assessments => {
+      this.assessmentsSubject.next(assessments);
+    });
   }
 }

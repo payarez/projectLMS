@@ -11,42 +11,75 @@
         <!-- Nombre -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Nombre</label>
-          <input pInputText formControlName="name" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="Nombre completo" />
+          <input
+            pInputText
+            formControlName="name"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="Nombre completo"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('name')">{{ getFieldError('name') }}</small>
         </div>
 
         <!-- Materia -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Materia</label>
-          <input pInputText formControlName="subject" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="Ej: Matemáticas" />
+          <input
+            pInputText
+            formControlName="subject"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="Ej: Matemáticas"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('subject')">{{ getFieldError('subject') }}</small>
         </div>
 
         <!-- Email -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Email</label>
-          <input pInputText formControlName="email" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="ejemplo@correo.com" />
+          <input
+            pInputText
+            formControlName="email"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="ejemplo@correo.com"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('email')">{{ getFieldError('email') }}</small>
         </div>
 
         <!-- Teléfono -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Teléfono</label>
-          <input pInputText formControlName="phone" class="w-full rounded-md shadow-sm border border-gray-300" placeholder="Ej: 3001234567" />
+          <input
+            pInputText
+            formControlName="phone"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="Ej: 3001234567"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('phone')">{{ getFieldError('phone') }}</small>
         </div>
 
         <!-- Registro -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Fecha de registro</label>
-          <input type="date" pInputText formControlName="registrationDate" class="w-full rounded-md shadow-sm border border-gray-300" />
+          <input
+            type="date"
+            pInputText
+            formControlName="registrationDate"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('registrationDate')">{{ getFieldError('registrationDate') }}</small>
         </div>
 
         <!-- Estado -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Estado</label>
-          <select formControlName="status" class="w-full p-inputtext rounded-md shadow-sm border border-gray-300">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
+          <select
+            formControlName="status"
+            class="w-full p-inputtext rounded-md shadow-sm border border-gray-300"
+          >
+            <option value="ACTIVE">Activo</option>
+            <option value="INACTIVE">Inactivo</option>
           </select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('status')">{{ getFieldError('status') }}</small>
         </div>
-
       </div>
 
       <!-- Botones -->
@@ -55,6 +88,7 @@
           <button
             pButton
             type="submit"
+            [disabled]="loading"
             class="p-button p-component bg-green-600 text-white hover:bg-green-700"
             label="Guardar"
             icon="pi pi-save"
@@ -72,3 +106,4 @@
     </form>
   </div>
 </div>
+<p-toast></p-toast>

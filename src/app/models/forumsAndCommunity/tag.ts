@@ -9,3 +9,8 @@ export interface TagI {
   // Relations
   courseTags?: CourseTagI[];
 }
+
+export interface TagResponseI {
+  id?: number;
+  name: string;
+}

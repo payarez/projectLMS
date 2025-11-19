@@ -39,177 +39,235 @@ import { GetAllCourseTags } from './components/forumsAndCommunity/courseTag/get-
 import { CreateCourseTags } from './components/forumsAndCommunity/courseTag/create-course-tags/create-course-tags';
 import { UpdateCourseTags } from './components/forumsAndCommunity/courseTag/update-course-tags/update-course-tags';
 
+import { Login } from './components/auth/login/login';
+import { Register } from './components/auth/register/register';
+import { AuthGuard } from './guards/authguard';
 
 
 
 export const routes: Routes = [
-
+    { 
+        path: '', 
+        redirectTo: '/login', 
+        pathMatch: 'full' 
+    },
+    {
+        path: "login",
+        component: Login
+    },
+    {
+        path: "register",
+        component: Register
+    },
     {
         path: 'courses',
-        component: GetAllCourses
+        component: GetAllCourses,
+        canActivate: [AuthGuard]
     },
     {
         path: 'courses/new',
-        component: CreateCourses
+        component: CreateCourses,
+        canActivate: [AuthGuard]
     },
     {
         path: 'courses/edit/:id',
-        component: UpdateCourses
+        component: UpdateCourses,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'modules',
-        component: GetAllModules
+        component: GetAllModules,
+        canActivate: [AuthGuard]
     },
     {
         path: 'modules/new',
-        component: CreateModules
+        component: CreateModules,
+        canActivate: [AuthGuard]
     },
     {
         path: 'modules/edit/:id',
-        component: UpdateModules
+        component: UpdateModules,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'lessons',
-        component: GetAllLessons
+        component: GetAllLessons,
+        canActivate: [AuthGuard]
     },
     {
         path: 'lessons/new',
-        component: CreateLessons
+        component: CreateLessons,
+        canActivate: [AuthGuard]
     },
     {
         path: 'lessons/edit/:id',
-        component: UpdateLessons
+        component: UpdateLessons,
+        canActivate: [AuthGuard]
     },
 
-    {
-        path: 'teachers',
-        component: GetAllTeachers
-    },
+        {
+            path: 'teachers',
+            component: GetAllTeachers,
+            canActivate: [AuthGuard]
+        },
     {
         path: 'teachers/new',
-        component: CreateTeachers
+        component: CreateTeachers,
+        canActivate: [AuthGuard]
     },
     {
         path: 'teachers/edit/:id',
-        component: UpdateTeachers
+        component: UpdateTeachers,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'students',
-        component: GetAllStudents
+        component: GetAllStudents,
+        canActivate: [AuthGuard]
     },
     {
         path: 'students/new',  
-        component: CreateStudents
+        component: CreateStudents,
+        canActivate: [AuthGuard]
     },
     {
         path: 'students/edit/:id',
-        component: UpdateStudents
+        component: UpdateStudents,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'enrollments',
-        component: GetAllEnrollments
+        component: GetAllEnrollments,
+        canActivate: [AuthGuard]
     },
     {
         path: 'enrollments/new',
-        component: CreateEnrollments
+        component: CreateEnrollments,
+        canActivate: [AuthGuard]
     },
     {
         path: 'enrollments/edit/:id',
-        component: UpdateEnrollments
+        component: UpdateEnrollments,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'submissions',
-        component: GetAllSubmissions
+        component: GetAllSubmissions,
+        canActivate: [AuthGuard]
     },
     {
         path: 'submissions/new',
-        component: CreateSubmissions
+        component: CreateSubmissions,
+        canActivate: [AuthGuard]
     },
     {
         path: 'submissions/edit/:id',
-        component: UpdateSubmissions
+        component: UpdateSubmissions,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'attempts',
-        component: GetAllAttempts
+        component: GetAllAttempts,
+        canActivate: [AuthGuard]
     },
     {
         path: 'attempts/new',
-        component: CreateAttempts
+        component: CreateAttempts,
+        canActivate: [AuthGuard]
     },
     {
         path: 'attempts/edit/:id',
-        component: UpdateAttempts
+        component: UpdateAttempts,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'assessments',
-        component: GetAllAssessments
+        component: GetAllAssessments,
+        canActivate: [AuthGuard]
     },
     {
         path: 'assessments/new',
-        component: CreateAssessments
+        component: CreateAssessments,
+        canActivate: [AuthGuard]
     },
     {
         path: 'assessments/edit/:id',
-        component: UpdateAssessments
+        component: UpdateAssessments,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'forums',
-        component: GetAllForums
+        component: GetAllForums,
+        canActivate: [AuthGuard]
     },
     {
         path: 'forums/new',
-        component: CreateForums
+        component: CreateForums,
+        canActivate: [AuthGuard]
     },
     {
         path: 'forums/edit/:id',
-        component: UpdateForums
+        component: UpdateForums,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'posts',
-        component: GetAllPosts
+        component: GetAllPosts,
+        canActivate: [AuthGuard]
     },
     {
         path: 'posts/new',
-        component: CreatePosts
+        component: CreatePosts,
+        canActivate: [AuthGuard]
     },
     {
         path: 'posts/edit/:id',
-        component: UpdatePosts
+        component: UpdatePosts,
+        canActivate: [AuthGuard]
     },
 
     {
         path: 'tags',
-        component: GetAllTags
+        component: GetAllTags,
+        canActivate: [AuthGuard]
     },
     {
         path: 'tags/new',
-        component: CreateTags
+        component: CreateTags,
+        canActivate: [AuthGuard]
     },
     {
         path: 'tags/edit/:id',
-        component: UpdateTags
+        component: UpdateTags,
+        canActivate: [AuthGuard]
     },
-
     {
         path: 'coursetags',
-        component: GetAllCourseTags
+        component: GetAllCourseTags,
+        canActivate: [AuthGuard]
     },
     {
         path: 'coursetags/new',
-        component: CreateCourseTags
+        component: CreateCourseTags,
+        canActivate: [AuthGuard]
     },
     {
         path: 'coursetags/edit/:id',
-        component: UpdateCourseTags
+        component: UpdateCourseTags,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: "**",
+        redirectTo: "login",
+        pathMatch: "full"
     }
 ];

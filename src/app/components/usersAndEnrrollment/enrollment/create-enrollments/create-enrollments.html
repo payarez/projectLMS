@@ -13,7 +13,15 @@
         <!-- Fecha -->
         <div>
           <label class="block mb-2 font-semibold text-gray-700">Fecha de inscripción</label>
-          <p-datepicker formControlName="date" dateFormat="yy-mm-dd" class="w-full rounded-md shadow-sm border border-gray-300"></p-datepicker>
+          <p-date-picker 
+            formControlName="date" 
+            dateFormat="yy-mm-dd" 
+            showIcon="true"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-date-picker>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('date')">
+            {{ getFieldError('date') }}
+          </small>
         </div>
 
         <!-- Estado -->
@@ -25,8 +33,11 @@
             optionValue="value"
             formControlName="status"
             placeholder="Seleccione estado"
-            class="w-full rounded-md shadow-sm border border-gray-300">
-          </p-select>
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('status')">
+            {{ getFieldError('status') }}
+          </small>
         </div>
 
         <!-- Estudiante -->
@@ -38,8 +49,11 @@
             optionValue="id"
             formControlName="studentId"
             placeholder="Seleccione estudiante"
-            class="w-full rounded-md shadow-sm border border-gray-300">
-          </p-select>
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('studentId')">
+            {{ getFieldError('studentId') }}
+          </small>
         </div>
 
         <!-- Curso -->
@@ -51,8 +65,11 @@
             optionValue="id"
             formControlName="courseId"
             placeholder="Seleccione curso"
-            class="w-full rounded-md shadow-sm border border-gray-300">
-          </p-select>
+            class="w-full rounded-md shadow-sm border border-gray-300"
+          ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('courseId')">
+            {{ getFieldError('courseId') }}
+          </small>
         </div>
 
       </div>
@@ -79,4 +96,7 @@
       </div>
     </form>
   </div>
+
+  <!-- Toast para mostrar mensajes -->
+  <p-toast></p-toast>
 </div>

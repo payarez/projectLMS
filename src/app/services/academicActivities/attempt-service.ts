@@ -1,28 +1,71 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { AttemptI } from '../../models/academicActivities/attempt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AttemptService {
-  private readonly _state = new BehaviorSubject<AttemptI[]>([
-    // example data
-    { id: 1, attemptNumber: 1, date: new Date('2025-09-10T09:00:00'), result: 'Passed', lessonId: 1, status: 'ACTIVE' },
-    { id: 2, attemptNumber: 2, date: new Date('2025-09-11T14:30:00'), result: 'Failed', lessonId: 1, status: 'INACTIVE' }
-  ]);
+  private baseUrl = 'http://localhost:4000/api/attempts';
 
-  readonly attempts$ = this._state.asObservable();
-  private get value(): AttemptI[] { return this._state.value; }
+  private attemptsSubject = new BehaviorSubject<AttemptI[]>([]);
+  public attempts$ = this.attemptsSubject.asObservable();
 
-  // GET all attempts
-  getAttempts(): AttemptI[] {
-    return this.value;
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return headers;
   }
 
-  // ADD a new attempt
-  addAttempt(attempt: Omit<AttemptI, 'id'>): AttemptI {
-    const nextId = this.value.length ? Math.max(...this.value.map(a => a.id ?? 0)) + 1 : 1;
-    const newAttempt: AttemptI = { id: nextId, ...attempt };
-    this._state.next([...this.value, newAttempt]);
-    return newAttempt;
+  /* ===============================
+         CRUD PRINCIPALES
+     =============================== */
+
+  getAllAttempts(): Observable<AttemptI[]> {
+    return this.http.get<AttemptI[]>(this.baseUrl, { headers: this.getHeaders() });
+  }
+
+  getAttemptById(id: number): Observable<AttemptI> {
+    return this.http.get<AttemptI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createAttempt(attempt: AttemptI): Observable<AttemptI> {
+    return this.http.post<AttemptI>(this.baseUrl, attempt, { headers: this.getHeaders() });
+  }
+
+  updateAttempt(id: number, attempt: AttemptI): Observable<AttemptI> {
+    return this.http.patch<AttemptI>(`${this.baseUrl}/${id}`, attempt, { headers: this.getHeaders() });
+  }
+
+  deleteAttempt(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deleteAttemptLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  /* ===============================
+         STATE MANAGEMENT
+     =============================== */
+
+  updateLocalAttempts(attempts: AttemptI[]): void {
+    this.attemptsSubject.next(attempts);
+  }
+
+  refreshAttempts(): void {
+    this.getAllAttempts().subscribe(attempts => {
+      this.attemptsSubject.next(attempts);
+    });
   }
 }

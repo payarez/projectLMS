@@ -12,3 +12,11 @@ export interface AssessmentI {
   submissionId: number;
   submission?: SubmissionI;
 }
+
+export interface AssessmentResponseI {
+  id?: number;
+  grade: number;
+  feedback?: string;
+  date: Date;
+  submissionId: number;
+}

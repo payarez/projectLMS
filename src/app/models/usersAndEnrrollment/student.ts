@@ -12,3 +12,9 @@ export interface StudentI {
   enrollments?: EnrollmentI[];
   posts?: PostI[];
 }
+
+export interface StudentResponseI {
+  id?: number;
+  name: string;
+  email: string;
+}

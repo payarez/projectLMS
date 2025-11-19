@@ -12,3 +12,11 @@ export interface AttemptI {
   lessonId: number;
   lesson?: LessonI;
 }
+
+export interface AttemptResponseI {
+  id?: number;
+  attemptNumber: number;
+  date: Date;
+  result?: string;
+  lessonId: number;
+}

@@ -14,3 +14,11 @@ export interface ModuleI {
 
   lessons?: LessonI[];
 }
+
+export interface ModuleResponseI {
+  id?: number;
+  title: string;
+  description: string;
+  courseId: number;
+  
+}

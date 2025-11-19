@@ -21,6 +21,9 @@
             placeholder="Seleccione curso"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('courseId')?.touched && form.get('courseId')?.invalid">
+            Curso es requerido
+          </small>
         </div>
 
         <!-- Tag -->
@@ -34,6 +37,9 @@
             placeholder="Seleccione tag"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('tagId')?.touched && form.get('tagId')?.invalid">
+            Tag es requerido
+          </small>
         </div>
 
         <!-- Estado -->
@@ -47,6 +53,9 @@
             placeholder="Seleccione estado"
             class="w-full rounded-md shadow-sm border border-gray-300"
           ></p-select>
+          <small class="text-red-600 text-sm" *ngIf="form.get('status')?.touched && form.get('status')?.invalid">
+            Estado es requerido
+          </small>
         </div>
 
       </div>
@@ -57,6 +66,7 @@
           <button
             pButton
             type="submit"
+            [disabled]="loading"
             class="p-button p-component bg-green-600 text-white hover:bg-green-700"
             label="Guardar"
             icon="pi pi-save"
@@ -73,4 +83,7 @@
       </div>
     </form>
   </div>
+
+  <!-- Toast para mostrar mensajes -->
+  <p-toast></p-toast>
 </div>

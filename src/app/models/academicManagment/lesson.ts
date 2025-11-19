@@ -16,3 +16,10 @@ export interface LessonI {
   submissions?: SubmissionI[];
   attempts?: AttemptI[];
 }
+
+export interface LessonResponseI {
+  id?: number;
+  title: string;
+  content: string;
+  moduleId: number;
+}

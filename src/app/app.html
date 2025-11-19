@@ -1,17 +1,39 @@
-<main>
+<!-- 🟢 Estructura si el usuario está logueado -->
+<main *ngIf="isLoggedIn; else loggedOutLayout" class="grid grid-cols-[auto_1fr] min-h-screen">
+  <!-- Header -->
+  <header class="col-span-2">
+    <app-header></app-header>
+  </header>
+
+  <!-- Aside -->
+  <aside>
+    <app-aside></app-aside>
+  </aside>
+
+  <!-- Contenido principal -->
+  <section class="bg-custom-gradient-dark p-6">
+    <router-outlet></router-outlet>
+  </section>
+
+  <!-- Footer -->
+  <footer class="col-span-2">
+    <app-footer></app-footer>
+  </footer>
+</main>
+
+<!-- 🔴 Estructura si NO está logueado -->
+<ng-template #loggedOutLayout>
+  <main class="flex flex-col min-h-screen">
     <header>
-        <app-header></app-header>
+      <app-header></app-header>
     </header>
 
-    <aside>
-        <app-aside></app-aside>
-    </aside>
-
-    <section class="bg-custom-gradient-dark">
-        <router-outlet></router-outlet>
+    <section class="flex-1 bg-custom-gradient-dark flex items-center justify-center">
+      <router-outlet></router-outlet>
     </section>
 
     <footer>
-        <app-footer></app-footer>
+      <app-footer></app-footer>
     </footer>
-</main>
+  </main>
+</ng-template>

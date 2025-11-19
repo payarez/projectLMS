@@ -14,3 +14,10 @@ export interface ForumI {
 
   posts?: PostI[];
 }
+
+export interface ForumResponseI {
+  id?: number;
+  title: string;
+  description: string;
+  courseId: number;
+}

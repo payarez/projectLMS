@@ -1,1 +1,66 @@
-<p>update-tags works!</p>
+<div class="p-6 bg-custom-gradient w-full h-full">
+  <div class="card shadow-md rounded-lg bg-gray-50 p-6 max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+      <i class="pi pi-tag text-3xl text-gray-700"></i>
+      Editar Tag
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Nombre -->
+        <div class="md:col-span-2">
+          <label class="block mb-2 font-semibold text-gray-700">Nombre del Tag</label>
+          <input
+            pInputText
+            formControlName="name"
+            class="w-full rounded-md shadow-sm border border-gray-300"
+            placeholder="Ej: Angular, NodeJS, SQL"
+          />
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('name')">
+            {{ getFieldError('name') }}
+          </small>
+        </div>
+
+        <!-- Estado -->
+        <div class="md:col-span-2">
+          <label class="block mb-2 font-semibold text-gray-700">Estado</label>
+          <select
+            formControlName="status"
+            class="w-full p-inputtext rounded-md shadow-sm border border-gray-300"
+          >
+            <option value="ACTIVE">Activo</option>
+            <option value="INACTIVE">Inactivo</option>
+          </select>
+          <small class="text-red-600 text-sm" *ngIf="getFieldError('status')">
+            {{ getFieldError('status') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-center mt-6">
+        <div class="bg-gray-100 rounded-lg p-4 flex gap-4 items-center shadow-sm">
+          <button
+            pButton
+            type="submit"
+            [disabled]="loading"
+            class="p-button p-component bg-blue-600 text-white hover:bg-blue-700"
+            label="Actualizar"
+            icon="pi pi-refresh"
+          ></button>
+          <button
+            pButton
+            type="button"
+            class="p-button p-component bg-gray-400 text-white hover:bg-gray-500"
+            label="Cancelar"
+            icon="pi pi-times"
+            (click)="cancelar()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-toast></p-toast>

@@ -13,3 +13,9 @@ export interface CourseTagI {
   tagId: number;
   tag?: TagI;
 }
+
+export interface CourseTagResponseI {
+  id?: number;
+  courseId: number;
+  tagId: number;
+}

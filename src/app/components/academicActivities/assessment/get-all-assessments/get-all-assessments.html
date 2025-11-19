@@ -1,4 +1,6 @@
 <div class="p-6 bg-custom-gradient w-full h-full">
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+
   <!-- Encabezado -->
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold text-white tracking-wide flex items-center gap-3 text-shadow-custom">
@@ -15,7 +17,9 @@
           type="text"
           placeholder=" Buscar assessment..."
           (input)="dt.filterGlobal($event.target.value, 'contains')"
-          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 text-white text-shadow-custom"
+          class="p-inputtext-sm w-full rounded-md shadow-sm border border-gray-300 
+                 focus:outline-none focus:ring-0 focus:border-gray-300 
+                 text-white text-shadow-custom"
         />
       </span>
 
@@ -47,8 +51,11 @@
       paginator
       [rows]="5"
       [rowsPerPageOptions]="[5,10,20]"
-      [globalFilterFields]="['id','grade','feedback','date','submissionId','status']"
-      class="p-datatable-sm p-datatable-gridlines p-datatable-striped rounded-md overflow-hidden bg-white"
+      [globalFilterFields]="[
+        'id','grade','feedback','date','submissionId','status'
+      ]"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped 
+             rounded-md overflow-hidden bg-white"
       [tableStyle]="{ 'min-width': '65rem' }"
     >
       <ng-template pTemplate="header">
@@ -72,6 +79,7 @@
           <th pSortableColumn="status" class="px-4 py-2 text-left">
             Estado <p-sortIcon field="status"></p-sortIcon>
           </th>
+          <th class="px-4 py-2 text-center">Acciones</th>
         </tr>
       </ng-template>
 
@@ -81,8 +89,11 @@
           <td class="px-4 py-2">{{ assessment.grade }}</td>
           <td class="px-4 py-2">{{ assessment.feedback }}</td>
           <td class="px-4 py-2">{{ assessment.date | date:'short' }}</td>
-          <td class="px-4 py-2">{{ submissionLabel(assessment.submissionId) }}</td>
-          <td class="px-4 py-2">{{ submissionContent(assessment.submissionId) }}</td>
+
+          <!-- USO DEL MAPEO QUE TE HICE EN TS -->
+          <td class="px-4 py-2">{{ submissionId(assessment.submissionId) }}</td>
+          <td class="px-4 py-2">{{ submissionName(assessment.submissionId) }}</td>
+
           <td class="px-4 py-2">
             <p-tag
               [value]="assessment.status"
@@ -90,8 +101,32 @@
               styleClass="px-3 py-1 font-medium rounded-full"
             ></p-tag>
           </td>
+
+          <!-- ACCIONES -->
+          <td class="text-center">
+            <div class="flex justify-center gap-2">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text p-button-warning"
+                [routerLink]="['/assessments/edit/', assessment.id]"
+                pTooltip="Editar"
+              ></button>
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger"
+                (click)="deleteAssessment(assessment)"
+                pTooltip="Eliminar"
+              ></button>
+            </div>
+          </td>
         </tr>
       </ng-template>
+
     </p-table>
   </div>
 </div>
